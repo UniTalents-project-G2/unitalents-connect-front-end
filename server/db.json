@@ -1,0 +1,195 @@
+{
+  "users": [
+    { "id": 1, "email": "clittle@hotmail.com", "password": "123456", "role": "student", "name": "David Barnes" },
+    { "id": 2, "email": "ivasquez@gmail.com", "password": "123456", "role": "student", "name": "Kevin Patterson" },
+    { "id": 3, "email": "bryce82@webb-diaz.org", "password": "123456", "role": "student", "name": "Rodney Fitzgerald" },
+    { "id": 4, "email": "garywilliams@hotmail.com", "password": "123456", "role": "student", "name": "Justin Prince" },
+    { "id": 5, "email": "singhclifford@parrish.info", "password": "123456", "role": "student", "name": "April Rodriguez" },
+    { "id": 6, "email": "brucerush@hotmail.com", "password": "123456", "role": "company", "name": "Joseph Davis" },
+    { "id": 7, "email": "rogerspatricia@hotmail.com", "password": "123456", "role": "company", "name": "Erika Barrera" },
+    { "id": 8, "email": "taylorsarah@thompson.info", "password": "123456", "role": "company", "name": "Mary Davis" },
+    { "id": 9, "email": "joneslori@oliver.com", "password": "123456", "role": "company", "name": "Larry House" },
+    { "id": 10, "email": "kerramy@howell.com", "password": "123456", "role": "company", "name": "Jesse Miller" }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "userId": 1,
+      "field": "Ciberseguridad",
+      "portfolioLink": "https://www.brown.com/",
+      "aboutMe": "Test main respond. Opportunity nice customer lay good include."
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "field": "Analítica de Datos",
+      "portfolioLink": "https://bailey.org/",
+      "aboutMe": "This Mrs future not. Under its they enough fly citizen order particular."
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "field": "Ingeniería de Software",
+      "portfolioLink": "http://miller-shepard.net/",
+      "aboutMe": "Second above same you. Mrs try follow measure east article."
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "field": "Diseño Gráfico",
+      "portfolioLink": "http://garza.com/",
+      "aboutMe": "Effect side energy fall. Organization ago follow his. Tax stay nature big for."
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "field": "Ingeniería de Software",
+      "portfolioLink": "https://harmon-cervantes.com/",
+      "aboutMe": "Carry activity tell drive ground increase before."
+    }
+  ],
+  "companies": [
+    {
+      "id": 1,
+      "userId": 6,
+      "companyName": "Ruiz-Bautista",
+      "sector": "Tecnología",
+      "description": "Soon edge similar. Join information bar son. Give through bad check seem their."
+    },
+    {
+      "id": 2,
+      "userId": 7,
+      "companyName": "Schaefer PLC",
+      "sector": "Finanzas",
+      "description": "Success bag mention better reach guy catch magazine."
+    },
+    {
+      "id": 3,
+      "userId": 8,
+      "companyName": "Herrera Inc",
+      "sector": "Educación",
+      "description": "Need executive fight education special somebody."
+    },
+    {
+      "id": 4,
+      "userId": 9,
+      "companyName": "Conway Group",
+      "sector": "Salud",
+      "description": "Physical happy affect. Method green various agency gun degree peace."
+    },
+    {
+      "id": 5,
+      "userId": 10,
+      "companyName": "Hill-Wong",
+      "sector": "Finanzas",
+      "description": "Shake result movie news example win. Find clearly work structure."
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "companyId": 1,
+      "title": "Create responsive web application",
+      "description": "Develop a fully responsive front-end for our new product using Vue.js.",
+      "field": "Ingeniería de Software",
+      "studentSelected": null,
+      "isFinished": false,
+      "postulants": [1, 3]
+    },
+    {
+      "id": 2,
+      "companyId": 2,
+      "title": "Design marketing campaign graphics",
+      "description": "Design banners, posters and other graphics for our summer campaign.",
+      "field": "Diseño Gráfico",
+      "studentSelected": null,
+      "isFinished": false,
+      "postulants": [4]
+    },
+    {
+      "id": 3,
+      "companyId": 3,
+      "title": "Data analysis for sales reports",
+      "description": "Use Python or R to analyze historical sales data and generate actionable insights.",
+      "field": "Analítica de Datos",
+      "studentSelected": null,
+      "isFinished": false,
+      "postulants": []
+    },
+    {
+      "id": 4,
+      "companyId": 4,
+      "title": "Develop secure login system",
+      "description": "Implement a secure authentication module with JWT for our app.",
+      "field": "Ciberseguridad",
+      "studentSelected": 2,
+      "isFinished": false,
+      "postulants": [2]
+    },
+    {
+      "id": 5,
+      "companyId": 5,
+      "title": "Redesign mobile interface",
+      "description": "Revamp the UI/UX of our mobile banking application.",
+      "field": "Diseño Gráfico",
+      "studentSelected": 5,
+      "isFinished": true,
+      "postulants": [5]
+    }
+  ],
+  "postulations": [
+    {
+      "id": 1,
+      "studentId": 1,
+      "projectId": 1,
+      "status": "enviado",
+      "date": "2025-03-10"
+    },
+    {
+      "id": 2,
+      "studentId": 2,
+      "projectId": 4,
+      "status": "aceptado",
+      "date": "2025-03-12"
+    },
+    {
+      "id": 3,
+      "studentId": 3,
+      "projectId": 1,
+      "status": "en revisión",
+      "date": "2025-03-14"
+    },
+    {
+      "id": 4,
+      "studentId": 4,
+      "projectId": 2,
+      "status": "rechazado",
+      "date": "2025-03-15"
+    },
+    {
+      "id": 5,
+      "studentId": 5,
+      "projectId": 5,
+      "status": "aceptado",
+      "date": "2025-03-16"
+    }
+  ],
+  "completedProjects": [
+    {
+      "id": 1,
+      "projectId": 5,
+      "studentId": 5,
+      "title": "Redesign mobile interface",
+      "description": "Revamp the UI/UX of our mobile banking application.",
+      "field": "Diseño Gráfico"
+    }
+  ],
+  "fields": [
+    { "id": 1, "name": "Ingeniería de Software" },
+    { "id": 2, "name": "Diseño Gráfico" },
+    { "id": 3, "name": "Marketing" },
+    { "id": 4, "name": "Ciberseguridad" },
+    { "id": 5, "name": "Analítica de Datos" }
+  ]
+}
+
