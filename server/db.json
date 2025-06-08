@@ -1,15 +1,83 @@
 {
   "users": [
-    { "id": 1, "email": "clittle@hotmail.com", "password": "123456", "role": "student", "name": "David Barnes" },
-    { "id": 2, "email": "ivasquez@gmail.com", "password": "123456", "role": "student", "name": "Kevin Patterson" },
-    { "id": 3, "email": "bryce82@webb-diaz.org", "password": "123456", "role": "student", "name": "Rodney Fitzgerald" },
-    { "id": 4, "email": "garywilliams@hotmail.com", "password": "123456", "role": "student", "name": "Justin Prince" },
-    { "id": 5, "email": "singhclifford@parrish.info", "password": "123456", "role": "student", "name": "April Rodriguez" },
-    { "id": 6, "email": "brucerush@hotmail.com", "password": "123456", "role": "company", "name": "Joseph Davis" },
-    { "id": 7, "email": "rogerspatricia@hotmail.com", "password": "123456", "role": "company", "name": "Erika Barrera" },
-    { "id": 8, "email": "taylorsarah@thompson.info", "password": "123456", "role": "company", "name": "Mary Davis" },
-    { "id": 9, "email": "joneslori@oliver.com", "password": "123456", "role": "company", "name": "Larry House" },
-    { "id": 10, "email": "kerramy@howell.com", "password": "123456", "role": "company", "name": "Jesse Miller" }
+    {
+      "id": 1,
+      "email": "clittle@hotmail.com",
+      "password": "123456",
+      "role": "student",
+      "name": "David Barnes"
+    },
+    {
+      "id": 2,
+      "email": "ivasquez@gmail.com",
+      "password": "123456",
+      "role": "student",
+      "name": "Kevin Patterson"
+    },
+    {
+      "id": 3,
+      "email": "bryce82@webb-diaz.org",
+      "password": "123456",
+      "role": "student",
+      "name": "Rodney Fitzgerald"
+    },
+    {
+      "id": 4,
+      "email": "garywilliams@hotmail.com",
+      "password": "123456",
+      "role": "student",
+      "name": "Justin Prince"
+    },
+    {
+      "id": 5,
+      "email": "singhclifford@parrish.info",
+      "password": "123456",
+      "role": "student",
+      "name": "April Rodriguez"
+    },
+    {
+      "id": 6,
+      "email": "brucerush@hotmail.com",
+      "password": "123456",
+      "role": "company",
+      "name": "Joseph Davis"
+    },
+    {
+      "id": 7,
+      "email": "rogerspatricia@hotmail.com",
+      "password": "123456",
+      "role": "company",
+      "name": "Erika Barrera"
+    },
+    {
+      "id": 8,
+      "email": "taylorsarah@thompson.info",
+      "password": "123456",
+      "role": "company",
+      "name": "Mary Davis"
+    },
+    {
+      "id": 9,
+      "email": "joneslori@oliver.com",
+      "password": "123456",
+      "role": "company",
+      "name": "Larry House"
+    },
+    {
+      "id": 10,
+      "email": "kerramy@howell.com",
+      "password": "123456",
+      "role": "company",
+      "name": "Jesse Miller"
+    },
+    {
+      "name": "Alvaro Abanto",
+      "email": "pachamanca123@gmail.com",
+      "password": "abcd",
+      "fieldId": 1,
+      "role": "student",
+      "id": 11
+    }
   ],
   "students": [
     {
@@ -46,6 +114,13 @@
       "field": "Ingeniería de Software",
       "portfolioLink": "https://harmon-cervantes.com/",
       "aboutMe": "Carry activity tell drive ground increase before."
+    },
+    {
+      "userId": 11,
+      "field": "Ingeniería de Software",
+      "portfolioLink": "",
+      "aboutMe": "",
+      "id": 6
     }
   ],
   "companies": [
@@ -94,7 +169,10 @@
       "field": "Ingeniería de Software",
       "studentSelected": null,
       "isFinished": false,
-      "postulants": [1, 3]
+      "postulants": [
+        1,
+        3
+      ]
     },
     {
       "id": 2,
@@ -104,7 +182,9 @@
       "field": "Diseño Gráfico",
       "studentSelected": null,
       "isFinished": false,
-      "postulants": [4]
+      "postulants": [
+        4
+      ]
     },
     {
       "id": 3,
@@ -124,7 +204,9 @@
       "field": "Ciberseguridad",
       "studentSelected": 2,
       "isFinished": false,
-      "postulants": [2]
+      "postulants": [
+        2
+      ]
     },
     {
       "id": 5,
@@ -134,7 +216,9 @@
       "field": "Diseño Gráfico",
       "studentSelected": 5,
       "isFinished": true,
-      "postulants": [5]
+      "postulants": [
+        5
+      ]
     }
   ],
   "postulations": [
@@ -185,11 +269,25 @@
     }
   ],
   "fields": [
-    { "id": 1, "name": "Ingeniería de Software" },
-    { "id": 2, "name": "Diseño Gráfico" },
-    { "id": 3, "name": "Marketing" },
-    { "id": 4, "name": "Ciberseguridad" },
-    { "id": 5, "name": "Analítica de Datos" }
+    {
+      "id": 1,
+      "name": "Ingeniería de Software"
+    },
+    {
+      "id": 2,
+      "name": "Diseño Gráfico"
+    },
+    {
+      "id": 3,
+      "name": "Marketing"
+    },
+    {
+      "id": 4,
+      "name": "Ciberseguridad"
+    },
+    {
+      "id": 5,
+      "name": "Analítica de Datos"
+    }
   ]
 }
-
