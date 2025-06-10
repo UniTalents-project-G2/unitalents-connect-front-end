@@ -289,5 +289,23 @@
       "id": 5,
       "name": "Analítica de Datos"
     }
+  ],
+  "reputations": [
+    {
+      "id": 1,
+      "studentId": 1,
+      "projectTitle": "Aplicación de Finanzas",
+      "companyName": "Financiera Data",
+      "comment": "Excelente trabajo, muy responsable",
+      "rating": 4.8
+    },
+    {
+      "id": 2,
+      "studentId": 1,
+      "projectTitle": "Rediseño del Website",
+      "companyName": "Tech Solutions",
+      "comment": "Buen desempeño, muy eficaz con sus entregas",
+      "rating": 4.7
+    }
   ]
 }
