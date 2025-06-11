@@ -13,6 +13,8 @@ import RecoverPasswordPage from "@/modules/auth/pages/recover-password.page.vue"
 import CallsPage from "@/modules/companies/pages/manager-calls.page.vue"
 import ProjectPostulationsPage from "@/modules/companies/pages/project-postulations.page.vue"
 import ReputationViewPage from "@/modules/companies/pages/reputation-view.page.vue"
+import MyCompanyPage from "@/modules/companies/pages/my-company.page.vue"
+import EditCompanyPage from "@/modules/companies/pages/edit-company.page.vue"
 
 // Student views (placeholder)
 //import StudentDashboardPage from "@/modules/students/pages/student-dashboard-page.vue"
@@ -52,7 +54,7 @@ const routes = [
                 component: CallsPage
             },
             {
-                path: '/manager/calls/:id',
+                path: 'calls/:id',
                 name: 'ManagerProjectPostulations',
                 component: ProjectPostulationsPage,
                 props: true
@@ -65,6 +67,16 @@ const routes = [
                     studentId: parseInt(route.params.studentId),
                     projectId: parseInt(route.query.projectId)
                 })
+            },
+            {
+                path: 'company',
+                name: 'ManagerCompany',
+                component: MyCompanyPage
+            },
+            {
+                path: 'company/edit',
+                name: 'EditCompany',
+                component: EditCompanyPage
             }
         ]
     },
