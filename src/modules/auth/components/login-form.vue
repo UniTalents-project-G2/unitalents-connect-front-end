@@ -76,8 +76,10 @@ export default {
           throw new Error("Contraseña incorrecta");
         }
 
-        // Aquí podrías guardar el user en localStorage/sessionStorage si necesitás mantener sesión
-        // localStorage.setItem('user', JSON.stringify(user));
+        // Guardar en localStorage
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('userRole', user.role);
+        localStorage.setItem('userName', user.name);
 
         this.toast.add({
           severity: "success",
@@ -89,16 +91,15 @@ export default {
         this.$emit('success');
 
         const roleRoutes = {
-          manager: (id) => `/manager/${id}/projects`,
-          student: (id) => `/student/${id}/opportunities`,
+          company: () => '/manager/calls',
+          student: () => '/student/dashboard'
         };
 
-        const targetRoute = roleRoutes[user.role]?.(user.id) || "/";
-
+        const targetRoute = roleRoutes[user.role]?.() || '/';
 
         setTimeout(() => {
           this.router.push(targetRoute);
-        }, 2000);
+        }, 1000);
 
       } catch (error) {
         this.$emit("error", error);
@@ -113,7 +114,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .auth-form {
@@ -187,7 +187,6 @@ export default {
 }
 
 .form-footer a:hover {
-
   text-decoration: underline;
 }
 

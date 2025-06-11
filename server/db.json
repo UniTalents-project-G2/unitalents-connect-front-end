@@ -85,35 +85,40 @@
       "userId": 1,
       "field": "Ciberseguridad",
       "portfolioLink": "https://www.brown.com/",
-      "aboutMe": "Test main respond. Opportunity nice customer lay good include."
+      "aboutMe": "Test main respond. Opportunity nice customer lay good include.",
+      "rating": 4.7
     },
     {
       "id": 2,
       "userId": 2,
       "field": "Analítica de Datos",
       "portfolioLink": "https://bailey.org/",
-      "aboutMe": "This Mrs future not. Under its they enough fly citizen order particular."
+      "aboutMe": "This Mrs future not. Under its they enough fly citizen order particular.",
+      "rating": 4.3
     },
     {
       "id": 3,
       "userId": 3,
       "field": "Ingeniería de Software",
       "portfolioLink": "http://miller-shepard.net/",
-      "aboutMe": "Second above same you. Mrs try follow measure east article."
+      "aboutMe": "Second above same you. Mrs try follow measure east article.",
+      "rating": 3.5
     },
     {
       "id": 4,
       "userId": 4,
       "field": "Diseño Gráfico",
       "portfolioLink": "http://garza.com/",
-      "aboutMe": "Effect side energy fall. Organization ago follow his. Tax stay nature big for."
+      "aboutMe": "Effect side energy fall. Organization ago follow his. Tax stay nature big for.",
+      "rating": 4.3
     },
     {
       "id": 5,
       "userId": 5,
       "field": "Ingeniería de Software",
       "portfolioLink": "https://harmon-cervantes.com/",
-      "aboutMe": "Carry activity tell drive ground increase before."
+      "aboutMe": "Carry activity tell drive ground increase before.",
+      "rating": 2.5
     },
     {
       "userId": 11,
@@ -171,20 +176,21 @@
       "isFinished": false,
       "postulants": [
         1,
+        2,
         3
       ]
     },
     {
       "id": 2,
-      "companyId": 2,
       "title": "Design marketing campaign graphics",
       "description": "Design banners, posters and other graphics for our summer campaign.",
-      "field": "Diseño Gráfico",
+      "companyId": 2,
       "studentSelected": null,
       "isFinished": false,
       "postulants": [
         4
-      ]
+      ],
+      "field": "Diseño Gráfico"
     },
     {
       "id": 3,
@@ -288,6 +294,24 @@
     {
       "id": 5,
       "name": "Analítica de Datos"
+    }
+  ],
+  "reputations": [
+    {
+      "id": 1,
+      "studentId": 4,
+      "projectTitle": "Aplicación de Finanzas",
+      "companyName": "Financiera Data",
+      "comment": "Excelente trabajo, muy responsable",
+      "rating": 4.8
+    },
+    {
+      "id": 2,
+      "studentId": 4,
+      "projectTitle": "Rediseño del Website",
+      "companyName": "Tech Solutions",
+      "comment": "Buen desempeño, muy eficaz con sus entregas",
+      "rating": 4.7
     }
   ]
 }
