@@ -36,11 +36,8 @@
       "name": "April Rodriguez"
     },
     {
-      "id": 6,
-      "email": "brucerush@hotmail.com",
-      "password": "123456",
-      "role": "company",
-      "name": "Joseph Davis"
+      "name": "Joseph Davis",
+      "id": 6
     },
     {
       "id": 7,
@@ -132,8 +129,18 @@
     {
       "id": 1,
       "userId": 6,
-      "companyName": "Ruiz-Bautista",
+      "companyName": "R",
       "sector": "Tecnología",
+      "location": "Lima, Perú",
+      "email": "contacto@ruizbautista.com",
+      "phone": "+51 987654321",
+      "rating": 4.9,
+      "specializations": [
+        "Marketing",
+        "Software",
+        "Sistemas"
+      ],
+      "logo": "https://via.placeholder.com/150",
       "description": "Soon edge similar. Join information bar son. Give through bad check seem their."
     },
     {
@@ -141,28 +148,67 @@
       "userId": 7,
       "companyName": "Schaefer PLC",
       "sector": "Finanzas",
-      "description": "Success bag mention better reach guy catch magazine."
+      "description": "Success bag mention better reach guy catch magazine.",
+      "location": "Arequipa, Perú",
+      "email": "info@schaeferplc.com",
+      "phone": "+51 912345678",
+      "rating": 4.7,
+      "specializations": [
+        "Finanzas",
+        "Contabilidad"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 3,
       "userId": 8,
       "companyName": "Herrera Inc",
       "sector": "Educación",
-      "description": "Need executive fight education special somebody."
+      "description": "Need executive fight education special somebody.",
+      "location": "Cusco, Perú",
+      "email": "herrera@inc.com",
+      "phone": "+51 911223344",
+      "rating": 4.8,
+      "specializations": [
+        "Educación",
+        "E-learning",
+        "Cursos"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 4,
       "userId": 9,
       "companyName": "Conway Group",
       "sector": "Salud",
-      "description": "Physical happy affect. Method green various agency gun degree peace."
+      "description": "Physical happy affect. Method green various agency gun degree peace.",
+      "location": "Trujillo, Perú",
+      "email": "contacto@conwaygroup.com",
+      "phone": "+51 988776655",
+      "rating": 4.6,
+      "specializations": [
+        "Medicina",
+        "Salud pública",
+        "Investigación"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 5,
       "userId": 10,
       "companyName": "Hill-Wong",
       "sector": "Finanzas",
-      "description": "Shake result movie news example win. Find clearly work structure."
+      "description": "Shake result movie news example win. Find clearly work structure.",
+      "location": "Chiclayo, Perú",
+      "email": "admin@hillwong.com",
+      "phone": "+51 922334455",
+      "rating": 4.9,
+      "specializations": [
+        "Banca",
+        "Fintech",
+        "Seguros"
+      ],
+      "logo": "https://via.placeholder.com/150"
     }
   ],
   "projects": [
