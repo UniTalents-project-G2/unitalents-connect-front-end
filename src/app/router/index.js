@@ -47,12 +47,12 @@ const routes = [
         component: ManagerLayout,
         children: [
             {
-                path: 'convocatorias',
-                name: 'ManagerConvocatorias',
+                path: 'calls',
+                name: 'ManagerCalls',
                 component: CallsPage
             },
             {
-                path: 'projects/:id',
+                path: '/manager/calls/:id',
                 name: 'ManagerProjectPostulations',
                 component: ProjectPostulationsPage,
                 props: true

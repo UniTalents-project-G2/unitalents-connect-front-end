@@ -1,57 +1,34 @@
-import httpInstance from "@/shared/services/http.instance.js";
-import { Company } from "@/modules/companies/model/company.entity.js";
+import http from '@/shared/services/http.instance';
+import { Company } from '../model/company.entity';
 
-/**
- * @class CompanyService
- * @description Service class for handling CRUD operations on companies using HTTP requests
- */
 export class CompanyService {
-    /** @type {string} The API endpoint for companies */
-    resourceEndpoint = import.meta.env.VITE_COMPANIES_ENDPOINT_PATH;
-
-    /**
-     * Retrieves all companies
-     * @returns {Promise<AxiosResponse<any>>}
-     */
-    getAll() {
-        return httpInstance.get(this.resourceEndpoint);
+    async getAll() {
+        const res = await http.get('/companies');
+        return res.data.map(company => new Company(company));
     }
 
-    /**
-     * Retrieves a company by ID
-     * @param {number|string} id
-     * @returns {Promise<Company>}
-     */
     async getById(id) {
-        const res = await httpInstance.get(`${this.resourceEndpoint}/${id}`);
+        const res = await http.get(`/companies/${id}`);
         return new Company(res.data);
     }
 
-    /**
-     * Creates a new company
-     * @param {Object} data
-     * @returns {Promise<AxiosResponse<any>>}
-     */
-    create(data) {
-        return httpInstance.post(this.resourceEndpoint, data);
+    async getByUserId(userId) {
+        const res = await http.get(`/companies?userId=${userId}`);
+        return res.data.map(company => new Company(company));
     }
 
-    /**
-     * Updates a company
-     * @param {number|string} id
-     * @param {Object} data
-     * @returns {Promise<AxiosResponse<any>>}
-     */
-    update(id, data) {
-        return httpInstance.put(`${this.resourceEndpoint}/${id}`, data);
+    async create(data) {
+        const res = await http.post('/companies', data);
+        return new Company(res.data);
     }
 
-    /**
-     * Deletes a company
-     * @param {number|string} id
-     * @returns {Promise<AxiosResponse<any>>}
-     */
-    delete(id) {
-        return httpInstance.delete(`${this.resourceEndpoint}/${id}`);
+    async update(id, data) {
+        const res = await http.put(`/companies/${id}`, data);
+        return new Company(res.data);
+    }
+
+    async delete(id) {
+        await http.delete(`/companies/${id}`);
+        return true;
     }
 }

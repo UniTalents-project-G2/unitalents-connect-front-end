@@ -14,9 +14,9 @@ export default {
     </div>
     <div class="center">
       <h3>{{ student.name }}</h3>
-      <p class="field">{{ student.field }}</p>
-      <p class="rating">⭐ {{ student.rating || '4.5' }}</p>
-      <a class="portfolio" :href="student.portfolioLink" target="_blank">Ver portafolio</a>
+      <p class="field">{{ student.field || 'Sin carrera especificada' }}</p>
+      <p class="rating">⭐ {{ student.rating || 'N/A' }}</p>
+      <a class="portfolio" v-if="student.portfolioLink" :href="student.portfolioLink" target="_blank">Ver portafolio</a>
       <div class="tags">
         <span class="tag" v-for="(skill, index) in student.skills || []" :key="index">{{ skill }}</span>
       </div>

@@ -11,7 +11,7 @@ export default {
   },
   methods: {
     goToDetails() {
-      this.$router.push(`/projects/${this.project.id}`);
+      this.$router.push(`/manager/calls/${this.project.id}`);
     }
   }
 }

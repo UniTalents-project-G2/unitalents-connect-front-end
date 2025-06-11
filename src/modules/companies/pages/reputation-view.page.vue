@@ -1,7 +1,11 @@
 <script>
 import Sidebar from '@/shared/components/manager-sidebar.components.vue';
 import ReputationCard from '@/modules/students/components/reputation-card.components.vue';
+
 import { ReputationService } from '@/modules/students/services/reputation.service.js';
+import { StudentService } from '@/modules/students/services/student.service.js';
+import { CompanyService } from '@/modules/companies/services/company.service.js';
+import { ProjectService } from '@/modules/projects/services/project.service.js';
 
 export default {
   name: 'ReputationViewPage',
@@ -14,36 +18,43 @@ export default {
       student: null,
       user: null,
       reputations: [],
-      projectId: null,
-      reputationService: new ReputationService()
+      projectId: null
     };
   },
   async created() {
-    const studentId = parseInt(this.$route.params.studentId);
-    this.projectId = parseInt(this.$route.query.projectId); // importante pasar ?projectId= al navegar
+    try {
+      const studentId = parseInt(this.$route.params.studentId);
+      this.projectId = parseInt(this.$route.query.projectId);
 
-    const [studentRes, usersRes] = await Promise.all([
-      fetch(`http://localhost:3000/students/${studentId}`).then(res => res.json()),
-      fetch(`http://localhost:3000/users`).then(res => res.json())
-    ]);
+      const studentService = new StudentService();
+      const companyService = new CompanyService();
+      const reputationService = new ReputationService();
 
-    this.student = studentRes;
-    this.user = usersRes.find(u => u.id === studentRes.userId);
+      this.student = await studentService.getById(studentId);
+      const users = await companyService.getAllUsers(); // Asegúrate de que este método exista
+      this.user = users.find(u => u.id === this.student.userId);
 
-    this.reputations = await this.reputationService.getByStudentId(studentId);
+      this.reputations = await reputationService.getByStudentId(studentId);
+    } catch (error) {
+      console.error('Error cargando información del estudiante:', error);
+    }
   },
   methods: {
     async aceptarPostulante() {
       if (!this.projectId) return;
 
-      await fetch(`http://localhost:3000/projects/${this.projectId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ studentSelected: this.student.id })
-      });
+      try {
+        const projectService = new ProjectService();
+        await projectService.update(this.projectId, {
+          studentSelected: this.student.id
+        });
 
-      alert('Estudiante aceptado ✅');
-      this.$router.push('/company/convocatorias');
+        alert('Estudiante aceptado ✅');
+        this.$router.push('/manager/convocatorias');
+      } catch (error) {
+        console.error('Error al aceptar postulante:', error);
+        alert('Ocurrió un error al aceptar al postulante ❌');
+      }
     }
   }
 };
