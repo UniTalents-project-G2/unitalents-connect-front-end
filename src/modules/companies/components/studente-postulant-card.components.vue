@@ -2,7 +2,8 @@
 export default {
   name: 'StudentPostulantCard',
   props: {
-    student: Object
+    student: Object,
+    projectId: Number
   }
 }
 </script>
@@ -14,15 +15,20 @@ export default {
     </div>
     <div class="center">
       <h3>{{ student.name }}</h3>
-      <p class="field">{{ student.field || 'Sin carrera especificada' }}</p>
-      <p class="rating">⭐ {{ student.rating || 'N/A' }}</p>
-      <a class="portfolio" v-if="student.portfolioLink" :href="student.portfolioLink" target="_blank">Ver portafolio</a>
+      <p class="field">{{ student.field }}</p>
+      <p class="rating">⭐ {{ student.rating }}</p>
+      <a v-if="student.portfolioLink" :href="student.portfolioLink" class="portfolio" target="_blank">Ver portafolio</a>
       <div class="tags">
-        <span class="tag" v-for="(skill, index) in student.skills || []" :key="index">{{ skill }}</span>
+        <span class="tag" v-for="(skill, index) in student.skills" :key="index">{{ skill }}</span>
       </div>
     </div>
     <div class="right">
-      <button class="reputation-btn">Ver reputación</button>
+      <router-link
+          class="reputation-btn"
+          :to="{ name: 'ManagerStudentReputation', params: { studentId: student.id }, query: { projectId: projectId } }"
+      >
+        Ver reputación
+      </router-link>
     </div>
   </div>
 </template>
@@ -99,5 +105,9 @@ export default {
   border-radius: 6px;
   padding: 0.6rem 1rem;
   cursor: pointer;
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  text-align: center;
 }
 </style>

@@ -174,19 +174,23 @@
       "field": "Ingeniería de Software",
       "studentSelected": null,
       "isFinished": false,
-      "postulants": [1,2,3]
+      "postulants": [
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 2,
-      "companyId": 2,
       "title": "Design marketing campaign graphics",
       "description": "Design banners, posters and other graphics for our summer campaign.",
-      "field": "Diseño Gráfico",
+      "companyId": 2,
       "studentSelected": null,
       "isFinished": false,
       "postulants": [
         4
-      ]
+      ],
+      "field": "Diseño Gráfico"
     },
     {
       "id": 3,
@@ -295,7 +299,7 @@
   "reputations": [
     {
       "id": 1,
-      "studentId": 1,
+      "studentId": 4,
       "projectTitle": "Aplicación de Finanzas",
       "companyName": "Financiera Data",
       "comment": "Excelente trabajo, muy responsable",
@@ -303,7 +307,7 @@
     },
     {
       "id": 2,
-      "studentId": 1,
+      "studentId": 4,
       "projectTitle": "Rediseño del Website",
       "companyName": "Tech Solutions",
       "comment": "Buen desempeño, muy eficaz con sus entregas",

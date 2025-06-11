@@ -8,35 +8,53 @@ export default {
 </script>
 
 <template>
-  <div class="card">
-    <h3>{{ reputation.projectTitle }}</h3>
-    <p class="company">{{ reputation.companyName }}</p>
-    <p class="rating">⭐ {{ reputation.rating }}</p>
-    <p class="comment">“{{ reputation.comment }}”</p>
+  <div class="reputation-card">
+    <div class="left">
+      <h3>{{ reputation.projectTitle }}</h3>
+      <p class="company">{{ reputation.companyName }}</p>
+      <p class="rating">⭐ {{ reputation.rating }}</p>
+    </div>
+    <div class="right">
+      <p class="comment">"{{ reputation.comment }}"</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.card {
-  border: 2px solid #333;
+.reputation-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 2px solid #222;
   border-radius: 10px;
-  background-color: #fff;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: white;
+}
+
+.left {
+  flex: 1;
+}
+
+.right {
+  flex: 1;
+  text-align: right;
 }
 
 .company {
-  font-size: 0.9rem;
   color: #555;
-  margin-top: -5px;
+  margin: 0.3rem 0;
 }
 
 .rating {
-  margin: 0.5rem 0;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
 }
 
 .comment {
   font-style: italic;
-  color: #222;
+  color: #555;
+  font-size: 1rem;
 }
 </style>

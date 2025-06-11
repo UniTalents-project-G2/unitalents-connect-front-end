@@ -2,10 +2,10 @@
 import Sidebar from '@/shared/components/manager-sidebar.components.vue';
 import ReputationCard from '@/modules/students/components/reputation-card.components.vue';
 
+import { ProjectService } from '@/modules/projects/services/project.service.js';
 import { ReputationService } from '@/modules/students/services/reputation.service.js';
 import { StudentService } from '@/modules/students/services/student.service.js';
-import { CompanyService } from '@/modules/companies/services/company.service.js';
-import { ProjectService } from '@/modules/projects/services/project.service.js';
+import { UserService } from '@/modules/users/services/user.service.js';
 
 export default {
   name: 'ReputationViewPage',
@@ -18,39 +18,53 @@ export default {
       student: null,
       user: null,
       reputations: [],
-      projectId: null
+      projectId: null,
+      projectService: new ProjectService()
     };
   },
   async created() {
+    const studentId = parseInt(this.$route.params.studentId);
+    this.projectId = parseInt(this.$route.query.projectId);
+
+    const studentService = new StudentService();
+    const userService = new UserService();
+    const reputationService = new ReputationService();
+
     try {
-      const studentId = parseInt(this.$route.params.studentId);
-      this.projectId = parseInt(this.$route.query.projectId);
+      const [studentData, usersData, reputationsData] = await Promise.all([
+        studentService.getById(studentId),
+        userService.getAll(),
+        reputationService.getByStudentId(studentId)
+      ]);
 
-      const studentService = new StudentService();
-      const companyService = new CompanyService();
-      const reputationService = new ReputationService();
-
-      this.student = await studentService.getById(studentId);
-      const users = await companyService.getAllUsers(); // Asegúrate de que este método exista
-      this.user = users.find(u => u.id === this.student.userId);
-
-      this.reputations = await reputationService.getByStudentId(studentId);
+      this.student = studentData;
+      this.user = usersData.find(u => u.id === studentData.userId);
+      this.reputations = reputationsData;
     } catch (error) {
-      console.error('Error cargando información del estudiante:', error);
+      console.error('Error cargando reputación:', error);
     }
   },
   methods: {
     async aceptarPostulante() {
-      if (!this.projectId) return;
+      if (!this.projectId || !this.student?.id) {
+        alert("Faltan datos para aceptar al postulante.");
+        return;
+      }
 
       try {
-        const projectService = new ProjectService();
-        await projectService.update(this.projectId, {
+        // Primero obtenemos el proyecto actual
+        const project = await this.projectService.getById(this.projectId);
+
+        // Actualizamos el campo studentSelected
+        const updatedProject = {
+          ...project,
           studentSelected: this.student.id
-        });
+        };
+
+        await this.projectService.update(this.projectId, updatedProject);
 
         alert('Estudiante aceptado ✅');
-        this.$router.push('/manager/convocatorias');
+        this.$router.push('/manager/calls');
       } catch (error) {
         console.error('Error al aceptar postulante:', error);
         alert('Ocurrió un error al aceptar al postulante ❌');
@@ -63,20 +77,28 @@ export default {
 <template>
   <div class="layout">
     <div class="content">
-      <router-link :to="`/projects/${projectId}`">← Volver a postulantes</router-link>
+      <router-link to="#" @click.prevent="$router.go(-1)" class="back-link">← Volver a postulantes</router-link>
 
-      <h1>{{ user?.name }}</h1>
-      <p><strong>Carrera:</strong> {{ student?.field }}</p>
-      <a :href="student?.portfolioLink" target="_blank" class="portfolio">Ver portafolio</a>
+      <div class="header">
+        <img class="avatar" :src="student.image || 'https://i.pravatar.cc/100?img=3'" alt="Foto" />
+        <div class="info">
+          <h1>{{ user?.name }}</h1>
+          <p>{{ student?.field }}</p>
+          <div class="rating-projects">
+            <span>⭐ {{ student?.rating }}</span>
+            <span class="projects">2 proyectos completados</span>
+          </div>
+        </div>
+        <button class="accept-btn" @click="aceptarPostulante">Aceptar</button>
+      </div>
 
-      <h2>Reputaciones anteriores</h2>
+      <h2>Reputación</h2>
+
       <ReputationCard
           v-for="rep in reputations"
           :key="rep.id"
           :reputation="rep"
       />
-
-      <button class="accept-btn" @click="aceptarPostulante">Aceptar postulante</button>
     </div>
   </div>
 </template>
@@ -90,11 +112,39 @@ export default {
   width: 100%;
   background-color: #f4eddf;
 }
-.portfolio {
+.back-link {
   display: inline-block;
-  margin: 0.5rem 0 2rem;
-  color: #007bff;
+  margin-bottom: 1rem;
+  color: #1c1f2b;
+  text-decoration: none;
+  font-weight: 500;
+}
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.info {
+  margin-left: 1.5rem;
+  flex: 1;
+}
+.info h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+.rating-projects {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+.projects {
+  margin-left: 1rem;
   text-decoration: underline;
+  color: #333;
 }
 .accept-btn {
   background-color: #fdd567;
