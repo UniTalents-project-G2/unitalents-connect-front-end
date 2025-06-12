@@ -16,8 +16,13 @@ import ReputationViewPage from "@/modules/companies/pages/reputation-view.page.v
 import MyCompanyPage from "@/modules/companies/pages/my-company.page.vue"
 import EditCompanyPage from "@/modules/companies/pages/edit-company.page.vue"
 
+
 // Student views
 import StudentOpportunitiesPage from "@/modules/projects/pages/student-opportunities.page.vue"
+
+const ManagerProjectsPage = () => import('@/modules/projects/pages/manager-project.page.vue')
+const ProjectDetailPage = () => import('@/modules/projects/pages/project-detail.page.vue')
+
 
 // Error
 // import NotFoundPage from "@/modules/public/pages/not-found-page.vue"
@@ -48,6 +53,25 @@ const routes = [
         path: '/manager',
         component: ManagerLayout,
         children: [
+            {
+                path: 'projects',
+                name: 'ManagerProjects',
+                component: ManagerProjectsPage,
+                meta: { title: 'Mis Proyectos' }
+            },
+            {
+                path: 'projects/new',
+                name: 'ManagerNewProject',
+                component: ProjectDetailPage,
+                meta: { title: 'Nuevo Proyecto' }
+            },
+            {
+                path: 'projects/:id',
+                name: 'ManagerProjectDetail',
+                component: ProjectDetailPage,
+                props: true,
+                meta: { title: 'Detalle de Proyecto' }
+            },
             {
                 path: 'calls',
                 name: 'ManagerCalls',
@@ -106,6 +130,12 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+router.beforeEach((to, from, next) => {
+    const title = to.meta.title || 'Gestión de Proyectos'
+    document.title = `${title} | TuAplicación`
+    next()
 })
 
 export default router

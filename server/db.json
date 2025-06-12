@@ -253,6 +253,7 @@
         "Graphic Design",
         "Branding"
       ],
+
       "status": "Pendiente",
       "budget": 250,
       "createdAt": "2025-06-11"
@@ -276,6 +277,7 @@
       "status": "Pendiente",
       "budget": 130,
       "createdAt": "2025-06-10"
+
     },
     {
       "id": 4,
@@ -297,6 +299,7 @@
       "status": "En curso",
       "budget": 180,
       "createdAt": "2025-06-11"
+
     },
     {
       "id": 5,
@@ -318,6 +321,7 @@
       "status": "Finalizado",
       "budget": 200,
       "createdAt": "2025-06-12"
+
     }
   ],
   "postulations": [

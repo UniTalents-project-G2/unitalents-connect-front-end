@@ -8,6 +8,9 @@ export class ProjectService {
     }
 
     async getById(id) {
+        if (!id || id === 'new') {
+            return null;
+        }
         const response = await http.get(`/projects/${id}`);
         return new Project(response.data);
     }
@@ -18,13 +21,23 @@ export class ProjectService {
     }
 
     async create(projectData) {
-        const response = await http.post('/projects', projectData);
-        return new Project(response.data);
+        const dataToSend = {
+            ...projectData,
+            isFinished: projectData.status === 'Finalizado',
+            studentSelected: projectData.status === 'En curso' ? null : projectData.studentSelected
+        }
+        const response = await http.post('/projects', dataToSend)
+        return new Project(response.data)
     }
 
     async update(id, projectData) {
-        const response = await http.put(`/projects/${id}`, projectData);
-        return new Project(response.data);
+        const dataToSend = {
+            ...projectData,
+            isFinished: projectData.status === 'Finalizado',
+            studentSelected: projectData.status === 'En curso' ? null : projectData.studentSelected
+        }
+        const response = await http.put(`/projects/${id}`, dataToSend)
+        return new Project(response.data)
     }
 
     async delete(id) {
@@ -38,3 +51,4 @@ export class ProjectService {
     }
 
 }
+export const projectService = new ProjectService();
