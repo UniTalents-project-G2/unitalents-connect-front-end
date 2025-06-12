@@ -44,5 +44,11 @@ export class ProjectService {
         await http.delete(`/projects/${id}`);
         return true;
     }
+
+    async getAvailable() {
+        const response = await http.get(`/projects?selectedStudent=null`);
+        return response.data.map(project => new Project(project));
+    }
+
 }
 export const projectService = new ProjectService();

@@ -92,7 +92,7 @@ export default {
 
         const roleRoutes = {
           company: () => '/manager/calls',
-          student: () => '/student/dashboard'
+          student: () => '/student/opportunities'
         };
 
         const targetRoute = roleRoutes[user.role]?.() || '/';
