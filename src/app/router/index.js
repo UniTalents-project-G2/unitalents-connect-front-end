@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Layouts
 import ManagerLayout from '@/shared/layouts/manager-layout.component.vue'
-//import StudentLayout from '@/shared/layouts/student-layout.component.vue'
+import StudentLayout from '@/shared/layouts/student-layout.component.vue'
 
 // Auth
 import RegisterPage from "@/modules/auth/pages/register-page.vue"
@@ -16,11 +16,11 @@ import ReputationViewPage from "@/modules/companies/pages/reputation-view.page.v
 import MyCompanyPage from "@/modules/companies/pages/my-company.page.vue"
 import EditCompanyPage from "@/modules/companies/pages/edit-company.page.vue"
 
-// Student views (placeholder)
-//import StudentDashboardPage from "@/modules/students/pages/student-dashboard-page.vue"
+// Student views
+import StudentOpportunitiesPage from "@/modules/projects/pages/student-opportunities.page.vue"
 
 // Error
-//import NotFoundPage from "@/modules/public/pages/not-found-page.vue"
+// import NotFoundPage from "@/modules/public/pages/not-found-page.vue"
 
 const routes = [
     {
@@ -81,27 +81,26 @@ const routes = [
         ]
     },
 
-    // Rutas base para estudiante
-    /*
+    // Rutas para estudiantes
     {
         path: '/student',
         component: StudentLayout,
         children: [
             {
-                path: 'dashboard',
-                name: 'StudentDashboard',
-                component: StudentDashboardPage
+                path: 'opportunities',
+                name: 'StudentOpportunities',
+                component: StudentOpportunitiesPage
             }
-            // Puedes seguir agregando aquí: oportunidades, portafolio, etc.
+            // Luego agregaremos aquí Portafolio, Postulaciones, Perfil, etc.
         ]
     },
 
-    // Página 404
-    {
-        path: '/:pathMatch(.*)*',
-        name: 'not-found',
-        component: NotFoundPage
-    }*/
+    // Página 404 (descomentaremos después)
+    // {
+    //     path: '/:pathMatch(.*)*',
+    //     name: 'not-found',
+    //     component: NotFoundPage
+    // }
 ]
 
 const router = createRouter({

@@ -214,17 +214,27 @@
   "projects": [
     {
       "id": 1,
-      "companyId": 1,
       "title": "Create responsive web application",
       "description": "Develop a fully responsive front-end for our new product using Vue.js.",
-      "field": "Ingeniería de Software",
+      "companyId": 1,
       "studentSelected": null,
       "isFinished": false,
       "postulants": [
         1,
         2,
         3
-      ]
+      ],
+      "field": "Ingeniería de Software",
+      "skills": [
+        "Vue.js",
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Responsive Design"
+      ],
+      "status": "En curso",
+      "budget": 150,
+      "createdAt": "2025-06-09"
     },
     {
       "id": 2,
@@ -236,7 +246,16 @@
       "postulants": [
         4
       ],
-      "field": "Diseño Gráfico"
+      "field": "Diseño Gráfico",
+      "skills": [
+        "Adobe Photoshop",
+        "Illustrator",
+        "Graphic Design",
+        "Branding"
+      ],
+      "status": "Pendiente",
+      "budget": 250,
+      "createdAt": "2025-06-11"
     },
     {
       "id": 3,
@@ -246,7 +265,17 @@
       "field": "Analítica de Datos",
       "studentSelected": null,
       "isFinished": false,
-      "postulants": []
+      "postulants": [],
+      "skills": [
+        "Python",
+        "Pandas",
+        "Data Analysis",
+        "Statistics",
+        "Data Visualization"
+      ],
+      "status": "Pendiente",
+      "budget": 130,
+      "createdAt": "2025-06-10"
     },
     {
       "id": 4,
@@ -258,7 +287,16 @@
       "isFinished": false,
       "postulants": [
         2
-      ]
+      ],
+      "skills": [
+        "Node.js",
+        "JWT",
+        "OAuth",
+        "Security Best Practices"
+      ],
+      "status": "En curso",
+      "budget": 180,
+      "createdAt": "2025-06-11"
     },
     {
       "id": 5,
@@ -270,7 +308,16 @@
       "isFinished": true,
       "postulants": [
         5
-      ]
+      ],
+      "skills": [
+        "UI/UX Design",
+        "Figma",
+        "Prototyping",
+        "Mobile Design"
+      ],
+      "status": "Finalizado",
+      "budget": 200,
+      "createdAt": "2025-06-12"
     }
   ],
   "postulations": [

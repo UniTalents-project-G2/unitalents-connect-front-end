@@ -1,5 +1,5 @@
 export class Project {
-    constructor({ id, title, description, companyId, studentSelected, isFinished, postulants = [], field }) {
+    constructor({ id, title, description, companyId, studentSelected, isFinished, postulants = [], field, budget, createdAt }) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -8,5 +8,8 @@ export class Project {
         this.isFinished = isFinished;
         this.postulants = postulants;
         this.field = field;
+        this.budget = budget;
+        this.createdAt = createdAt;
     }
 }
+
