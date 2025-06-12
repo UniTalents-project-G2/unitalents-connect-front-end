@@ -35,10 +35,7 @@
       "role": "student",
       "name": "April Rodriguez"
     },
-    {
-      "name": "Joseph Davis",
-      "id": 6
-    },
+    { "id": 6, "email": "brucerush@hotmail.com", "password": "123456", "role": "company", "name": "Joseph Davis" },
     {
       "id": 7,
       "email": "rogerspatricia@hotmail.com",
