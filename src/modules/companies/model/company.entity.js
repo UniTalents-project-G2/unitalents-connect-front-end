@@ -11,5 +11,6 @@ export class Company {
         this.specializations = specializations || [];
         this.logo = logo;
         this.description = description;
+        //hello
     }
 }
