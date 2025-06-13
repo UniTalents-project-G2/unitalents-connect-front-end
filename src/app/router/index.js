@@ -114,8 +114,19 @@ const routes = [
                 path: 'opportunities',
                 name: 'StudentOpportunities',
                 component: StudentOpportunitiesPage
-            }
+            },
             // Luego agregaremos aquí Portafolio, Postulaciones, Perfil, etc.
+            {
+                path: 'projects/:id',  // Nueva ruta para el detalle del proyecto
+                name: 'StudentProjectDetail',
+                component: () => import('@/modules/projects/components/opportunity-detail.component.vue')
+            },
+
+            {
+                path: 'companies/:id',
+                name: 'StudentCompanyProfile',
+                component: () => import('@/modules/projects/components/view-company-profile.component.vue')
+            }
         ]
     },
 
