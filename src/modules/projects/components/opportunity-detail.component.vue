@@ -1,18 +1,12 @@
-<!-- src/modules/projects/components/opportunity-detail.component.vue -->
 <script>
-import { projectService } from '@/modules/projects/services/project.service'
-import {postulationService} from "@/modules/student-postulations/services/postulation.service.js";
+import { projectService } from '@/modules/projects/services/project.service';
+import { postulationService } from "@/modules/student-postulations/services/postulation.service.js";
 
 export default {
   name: 'StudentProjectDetailPage',
-  props: {
-    studentId: {
-      type: Number,
-      required: true
-    }
-  },
   data() {
     return {
+      studentId: parseInt(localStorage.getItem('userId')),  // 🔥 Tomamos el ID directamente del localStorage
       project: null,
       loading: false,
       error: null,
@@ -26,7 +20,11 @@ export default {
       try {
         const response = await projectService.getById(id);
         this.project = response.data || response;
-        await this.checkUserApplication();
+
+        // 🚩 Controlamos visibilidad del botón según el array postulants
+        const currentPostulants = (this.project.postulants || []).filter(p => p != null);
+        this.hasApplied = currentPostulants.includes(this.studentId);
+
       } catch (error) {
         console.error('Error loading project:', error);
         this.error = 'No se pudo cargar el proyecto';
@@ -35,22 +33,9 @@ export default {
       }
     },
 
-    async checkUserApplication() {
-      try {
-        const postulations = await postulationService.getByStudent(this.studentId);
-        const userPostulation = postulations.find(p => p.projectId === parseInt(this.$route.params.id));
-
-        if (userPostulation) {
-          this.hasApplied = true;
-          this.applicationStatus = userPostulation.status;
-        }
-      } catch (error) {
-        console.error('Error checking user application:', error);
-      }
-    },
-
     async applyToProject() {
       try {
+        // 1️⃣ Crear la postulación
         const postulationData = {
           studentId: this.studentId,
           projectId: this.project.id,
@@ -60,13 +45,17 @@ export default {
 
         await postulationService.create(postulationData);
 
-        const updatedProject = {
-          ...this.project,
-          postulants: [...(this.project.postulants || []), this.studentId]
-        };
+        // 2️⃣ Actualizar el arreglo postulants del proyecto
+        const currentPostulants = (this.project.postulants || []).filter(p => p != null);
+        if (!currentPostulants.includes(this.studentId)) {
+          const updatedProject = {
+            ...this.project,
+            postulants: [...currentPostulants, this.studentId]
+          };
+          await projectService.update(this.project.id, updatedProject);
+        }
 
-        await projectService.update(this.project.id, updatedProject);
-
+        // 3️⃣ Actualizamos el estado local
         this.hasApplied = true;
         this.applicationStatus = 'enviado';
         alert('¡Postulación enviada con éxito!');
@@ -83,7 +72,7 @@ export default {
         'en-curso': this.project.status === 'En curso',
         'finalizado': this.project.status === 'Finalizado',
         'pendiente': this.project.status === 'Pendiente'
-      }
+      };
     },
     applicationStatusText() {
       const statusMap = {
@@ -113,15 +102,12 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <template>
   <div class="project-detail">
-    <router-link
-        :to="{ name: 'StudentOpportunities', params: { studentId: studentId } }"
-        class="back-link"
-    >
+    <router-link :to="{ name: 'StudentOpportunities' }" class="back-link">
       ← Volver a Oportunidades
     </router-link>
 
@@ -149,7 +135,7 @@ export default {
         <p v-if="project.budget"><strong>Presupuesto:</strong> ${{ project.budget }}</p>
         <p v-if="project.createdAt"><strong>Publicado:</strong> {{ project.createdAt }}</p>
 
-        <div v-if="project.skills && project.skills.length > 0" class="skills-display">
+        <div v-if="project.skills?.length > 0" class="skills-display">
           <strong>Habilidades requeridas:</strong>
           <div class="skills-list">
             <span v-for="(skill, index) in project.skills" :key="index" class="skill-tag">
@@ -170,24 +156,18 @@ export default {
       </div>
 
       <div class="actions">
-        <button
-            v-if="!hasApplied && project.status === 'Pendiente'"
-            @click="applyToProject"
-            class="apply-btn"
-        >
+        <button v-if="!hasApplied && project.status === 'Pendiente'" @click="applyToProject" class="apply-btn">
           Postularme
         </button>
 
-        <router-link
-            :to="{ name: 'StudentCompanyProfile', params: { id: project.companyId } }"
-            class="view-company-btn"
-        >
+        <router-link :to="{ name: 'StudentCompanyProfile', params: { id: project.companyId } }" class="view-company-btn">
           Ver empresa
         </router-link>
       </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 /* Tus estilos actuales están correctos, los mantengo igual */
