@@ -126,6 +126,13 @@ const routes = [
                 path: 'companies/:id',
                 name: 'StudentCompanyProfile',
                 component: () => import('@/modules/projects/components/view-company-profile.component.vue')
+            },
+
+            {
+                path: 'postulations/:id',
+                name: 'StudentPostulations',
+                component: () => import('@/modules/student-postulations/pages/student-postulations.page.vue'),
+                props: true
             }
         ]
     },

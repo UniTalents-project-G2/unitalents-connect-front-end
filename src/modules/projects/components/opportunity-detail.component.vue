@@ -1,14 +1,24 @@
+<!-- src/modules/projects/components/opportunity-detail.component.vue -->
 <script>
 import { projectService } from '@/modules/projects/services/project.service'
+import {postulationService} from "@/modules/student-postulations/services/postulation.service.js";
 
 export default {
   name: 'StudentProjectDetailPage',
+  props: {
+    studentId: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
       project: null,
       loading: false,
-      error: null
-    }
+      error: null,
+      hasApplied: false,
+      applicationStatus: null
+    };
   },
   methods: {
     async loadProject(id) {
@@ -16,11 +26,53 @@ export default {
       try {
         const response = await projectService.getById(id);
         this.project = response.data || response;
+        await this.checkUserApplication();
       } catch (error) {
         console.error('Error loading project:', error);
         this.error = 'No se pudo cargar el proyecto';
       } finally {
         this.loading = false;
+      }
+    },
+
+    async checkUserApplication() {
+      try {
+        const postulations = await postulationService.getByStudent(this.studentId);
+        const userPostulation = postulations.find(p => p.projectId === parseInt(this.$route.params.id));
+
+        if (userPostulation) {
+          this.hasApplied = true;
+          this.applicationStatus = userPostulation.status;
+        }
+      } catch (error) {
+        console.error('Error checking user application:', error);
+      }
+    },
+
+    async applyToProject() {
+      try {
+        const postulationData = {
+          studentId: this.studentId,
+          projectId: this.project.id,
+          status: 'enviado',
+          date: new Date().toISOString().split('T')[0]
+        };
+
+        await postulationService.create(postulationData);
+
+        const updatedProject = {
+          ...this.project,
+          postulants: [...(this.project.postulants || []), this.studentId]
+        };
+
+        await projectService.update(this.project.id, updatedProject);
+
+        this.hasApplied = true;
+        this.applicationStatus = 'enviado';
+        alert('¡Postulación enviada con éxito!');
+      } catch (error) {
+        console.error('Error applying to project:', error);
+        alert('Error al enviar la postulación');
       }
     }
   },
@@ -32,6 +84,23 @@ export default {
         'finalizado': this.project.status === 'Finalizado',
         'pendiente': this.project.status === 'Pendiente'
       }
+    },
+    applicationStatusText() {
+      const statusMap = {
+        'enviado': 'Postulación enviada',
+        'en revisión': 'En revisión',
+        'aceptado': 'Aceptado',
+        'rechazado': 'Rechazado'
+      };
+      return statusMap[this.applicationStatus] || this.applicationStatus;
+    },
+    applicationStatusClass() {
+      return {
+        'enviado': 'status-pending',
+        'en revisión': 'status-review',
+        'aceptado': 'status-accepted',
+        'rechazado': 'status-rejected'
+      }[this.applicationStatus] || '';
     }
   },
   watch: {
@@ -49,7 +118,10 @@ export default {
 
 <template>
   <div class="project-detail">
-    <router-link to="/student/opportunities" class="back-link">
+    <router-link
+        :to="{ name: 'StudentOpportunities', params: { studentId: studentId } }"
+        class="back-link"
+    >
       ← Volver a Oportunidades
     </router-link>
 
@@ -64,6 +136,11 @@ export default {
     <div v-else-if="project" class="project-info">
       <div class="header">
         <h1>{{ project.title }}</h1>
+        <div v-if="hasApplied" class="application-status">
+          <span :class="['status-chip', applicationStatusClass]">
+            {{ applicationStatusText }}
+          </span>
+        </div>
       </div>
 
       <div class="meta">
@@ -91,7 +168,16 @@ export default {
         <h3>Estudiante asignado:</h3>
         <p>{{ project.studentSelected }}</p>
       </div>
+
       <div class="actions">
+        <button
+            v-if="!hasApplied && project.status === 'Pendiente'"
+            @click="applyToProject"
+            class="apply-btn"
+        >
+          Postularme
+        </button>
+
         <router-link
             :to="{ name: 'StudentCompanyProfile', params: { id: project.companyId } }"
             class="view-company-btn"
@@ -104,6 +190,7 @@ export default {
 </template>
 
 <style scoped>
+/* Tus estilos actuales están correctos, los mantengo igual */
 .project-detail {
   max-width: 800px;
   margin: 0 auto;
@@ -118,6 +205,9 @@ export default {
 }
 
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -179,7 +269,7 @@ export default {
 
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 30px;
 }
 
@@ -194,5 +284,51 @@ export default {
 
 .view-company-btn:hover {
   background-color: #3a70c2;
+}
+
+.apply-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.apply-btn:hover {
+  background-color: #3e8e41;
+}
+
+.application-status {
+  margin-left: 20px;
+}
+
+.status-chip {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.status-pending {
+  background-color: #FFC107;
+  color: #212121;
+}
+
+.status-review {
+  background-color: #2196F3;
+  color: white;
+}
+
+.status-accepted {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.status-rejected {
+  background-color: #F44336;
+  color: white;
 }
 </style>
