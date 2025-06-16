@@ -8,10 +8,12 @@ export default {
     }
   },
   methods: {
-    apply() {
-      this.$emit('apply', this.project.id);
+    viewDetails() {
+      this.$router.push({
+        name: 'StudentProjectDetail',
+        params: { id: this.project.id }
+      });
     },
-
     formatRelativeDate(dateString) {
       const createdAt = new Date(dateString);
       const now = new Date();
@@ -39,7 +41,7 @@ export default {
       <div class="date">{{ formatRelativeDate(project.createdAt) }}</div>
     </div>
 
-    <button @click="apply">Postularme</button>
+    <button @click="viewDetails">Postularme</button>
   </div>
 </template>
 

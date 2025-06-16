@@ -19,6 +19,9 @@ import EditCompanyPage from "@/modules/companies/pages/edit-company.page.vue"
 
 // Student views
 import StudentOpportunitiesPage from "@/modules/projects/pages/student-opportunities.page.vue"
+import OpportunityDetailPage from "@/modules/projects/components/opportunity-detail.component.vue";
+import CompanyProfilePage from "@/modules/projects/components/view-company-profile.component.vue";
+import StudentPostulationsPage from "@/modules/student-postulations/pages/student-postulations.page.vue";
 
 const ManagerProjectsPage = () => import('@/modules/projects/pages/manager-project.page.vue')
 const ProjectDetailPage = () => import('@/modules/projects/pages/project-detail.page.vue')
@@ -113,11 +116,26 @@ const routes = [
             {
                 path: 'opportunities',
                 name: 'StudentOpportunities',
-                component: StudentOpportunitiesPage
+                component: StudentOpportunitiesPage,
+            },
+            {
+                path: 'opportunities/:id',
+                name: 'StudentProjectDetail',
+                component: OpportunityDetailPage,
+            },
+            {
+                path: 'companies/:id',
+                name: 'StudentCompanyProfile',
+                component: CompanyProfilePage,
+            },
+            {
+                path: 'postulations',
+                name: 'StudentPostulations',
+                component: StudentPostulationsPage,
             }
-            // Luego agregaremos aquí Portafolio, Postulaciones, Perfil, etc.
+
         ]
-    },
+    }
 
     // Página 404 (descomentaremos después)
     // {
