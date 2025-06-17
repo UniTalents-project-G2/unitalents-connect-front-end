@@ -19,6 +19,7 @@ import EditCompanyPage from "@/modules/companies/pages/edit-company.page.vue"
 
 // Student views
 import StudentOpportunitiesPage from "@/modules/projects/pages/student-opportunities.page.vue"
+import MyProfilePage from "@/modules/students/pages/my-profile.page.vue";
 
 const ManagerProjectsPage = () => import('@/modules/projects/pages/manager-project.page.vue')
 const ProjectDetailPage = () => import('@/modules/projects/pages/project-detail.page.vue')
@@ -114,8 +115,18 @@ const routes = [
                 path: 'opportunities',
                 name: 'StudentOpportunities',
                 component: StudentOpportunitiesPage
-            }
+            },
             // Luego agregaremos aquí Portafolio, Postulaciones, Perfil, etc.
+            {
+                path: 'profile',
+                name: 'StudentProfile',
+                component: MyProfilePage
+            },
+            {
+                path: 'profile/edit',
+                name: 'EditProfile',
+                
+            }
         ]
     },
 

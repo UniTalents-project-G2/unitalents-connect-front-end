@@ -77,42 +77,98 @@
     {
       "id": 1,
       "userId": 1,
+      "birthdate": "24 de noviembre de 2002",
+      "city": "Lima",
+      "country": "Perú",
       "field": "Ciberseguridad",
+      "phoneNumber": "+51 568124563",
       "portfolioLink": "https://www.brown.com/",
       "aboutMe": "Test main respond. Opportunity nice customer lay good include.",
-      "rating": 4.7
+      "rating": 4.7,
+      "specializations": [
+        "Python",
+        "MatLab",
+        "Pandas",
+        "JavaScript",
+        "React"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 2,
       "userId": 2,
+      "birthdate": "23 de agosto de 1999",
+      "city": "Callao",
+      "country": "Perú",
       "field": "Analítica de Datos",
+      "phoneNumber": "+51 452361235",
       "portfolioLink": "https://bailey.org/",
       "aboutMe": "This Mrs future not. Under its they enough fly citizen order particular.",
-      "rating": 4.3
+      "rating": 4.3,
+      "specializations": [
+        "Machine Learning",
+        "JavaScript",
+        "C#",
+        "JavaScript"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 3,
       "userId": 3,
+      "birthdate": "02 de julio de 1998",
+      "city": "Lima",
+      "country": "Perú",
       "field": "Ingeniería de Software",
+      "phoneNumber": "+51 123698532",
       "portfolioLink": "http://miller-shepard.net/",
       "aboutMe": "Second above same you. Mrs try follow measure east article.",
-      "rating": 3.5
+      "rating": 3.5,
+      "specializations": [
+        "Angular",
+        "Vue",
+        "Ruby On Rails",
+        "JavaScript"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 4,
       "userId": 4,
+      "birthdate": "09 de enero de 2002",
+      "city": "Tacna",
+      "country": "Perú",
       "field": "Diseño Gráfico",
+      "phoneNumber": "+51 452125589",
       "portfolioLink": "http://garza.com/",
       "aboutMe": "Effect side energy fall. Organization ago follow his. Tax stay nature big for.",
-      "rating": 4.3
+      "rating": 4.3,
+      "specializations": [
+        "C++",
+        "SpringBoot",
+        "PHP",
+        "C#"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 5,
       "userId": 5,
+      "birthdate": "24 de noviembre de 2002",
+      "city": "Chiclayo",
+      "country": "Perú",
       "field": "Ingeniería de Software",
+      "phoneNumber": "+51 745698236",
       "portfolioLink": "https://harmon-cervantes.com/",
       "aboutMe": "Carry activity tell drive ground increase before.",
-      "rating": 2.5
+      "rating": 2.5,
+      "specializations": [
+        "C++",
+        "SpringBoot",
+        "PHP",
+        "C#"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "userId": 11,
