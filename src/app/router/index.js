@@ -20,6 +20,7 @@ import EditCompanyPage from "@/modules/companies/pages/edit-company.page.vue"
 // Student views
 import StudentOpportunitiesPage from "@/modules/projects/pages/student-opportunities.page.vue"
 import MyProfilePage from "@/modules/students/pages/my-profile.page.vue";
+import EditProfilePage from "@/modules/students/pages/edit-profile.page.vue";
 
 const ManagerProjectsPage = () => import('@/modules/projects/pages/manager-project.page.vue')
 const ProjectDetailPage = () => import('@/modules/projects/pages/project-detail.page.vue')
@@ -125,7 +126,7 @@ const routes = [
             {
                 path: 'profile/edit',
                 name: 'EditProfile',
-                
+                component: EditProfilePage
             }
         ]
     },

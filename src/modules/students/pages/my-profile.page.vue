@@ -39,7 +39,7 @@ export default defineComponent({
   },
   methods: {
     goToEdit() {
-      
+      this.$router.push({ name: 'EditProfile' })
     }
   }
 })
@@ -69,7 +69,7 @@ export default defineComponent({
       <div class="tags">
         <span v-for="(tag,index) in profile.specializations" :key="index" class="tag">{{tag}}</span>
       </div>
-      <button class="edit-btn" @click="">Modificar perfil</button>
+      <button class="edit-btn" @click="goToEdit">Modificar perfil</button>
     </div>
   </div>
 </template>
