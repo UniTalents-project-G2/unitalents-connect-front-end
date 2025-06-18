@@ -26,7 +26,7 @@ import EditProfilePage from "@/modules/students/pages/edit-profile.page.vue";
 import OpportunityDetailPage from "@/modules/projects/components/opportunity-detail.component.vue";
 import CompanyProfilePage from "@/modules/projects/components/view-company-profile.component.vue";
 import StudentPostulationsPage from "@/modules/student-postulations/pages/student-postulations.page.vue";
-
+import PortfolioPage from "@/modules/projects/pages/portfolio.page.vue";
 
 const ManagerProjectsPage = () => import('@/modules/projects/pages/manager-project.page.vue')
 const ProjectDetailPage = () => import('@/modules/projects/pages/project-detail.page.vue')
@@ -123,7 +123,7 @@ const routes = [
                 name: 'StudentOpportunities',
                 component: StudentOpportunitiesPage
             },
-            // Luego agregaremos aquí Portafolio, Postulaciones, Perfil, etc.
+
             {
                 path: 'profile',
                 name: 'StudentProfile',
@@ -139,6 +139,12 @@ const routes = [
                 name: 'StudentProjectDetail',
                 component: OpportunityDetailPage,
             },
+            {
+                path: 'portfolio',
+                name: 'PortfolioPage',
+                component: PortfolioPage,
+            },
+
             {
                 path: 'companies/:id',
                 name: 'StudentCompanyProfile',
@@ -168,7 +174,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const title = to.meta.title || 'Gestión de Proyectos'
-    document.title = `${title} | TuAplicación`
+    document.title = `${title} | UniTalents Connect`
     next()
 })
 

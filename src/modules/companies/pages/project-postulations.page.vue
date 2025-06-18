@@ -42,7 +42,7 @@ export default {
       ]);
 
       // OJO: el studentService devuelve el AxiosResponse completo
-      const students = studentRes.data.map(s => s); // ya que no tenemos entidad en el service
+      const students = studentRes.map(s => s); // ya que no tenemos entidad en el service
 
       this.project = project;
       this.students = students;
