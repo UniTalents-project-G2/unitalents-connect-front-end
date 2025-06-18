@@ -345,6 +345,7 @@
       "studentSelected": 2,
       "isFinished": false,
       "postulants": [
+        1,
         2
       ],
       "skills": [
@@ -363,9 +364,10 @@
       "title": "Redesign mobile interface",
       "description": "Revamp the UI/UX of our mobile banking application.",
       "field": "Diseño Gráfico",
-      "studentSelected": 5,
+      "studentSelected": 1,
       "isFinished": true,
       "postulants": [
+        1,
         5
       ],
       "skills": [
