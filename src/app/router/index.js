@@ -19,9 +19,14 @@ import EditCompanyPage from "@/modules/companies/pages/edit-company.page.vue"
 
 // Student views
 import StudentOpportunitiesPage from "@/modules/projects/pages/student-opportunities.page.vue"
+
+import MyProfilePage from "@/modules/students/pages/my-profile.page.vue";
+import EditProfilePage from "@/modules/students/pages/edit-profile.page.vue";
+
 import OpportunityDetailPage from "@/modules/projects/components/opportunity-detail.component.vue";
 import CompanyProfilePage from "@/modules/projects/components/view-company-profile.component.vue";
 import StudentPostulationsPage from "@/modules/student-postulations/pages/student-postulations.page.vue";
+
 
 const ManagerProjectsPage = () => import('@/modules/projects/pages/manager-project.page.vue')
 const ProjectDetailPage = () => import('@/modules/projects/pages/project-detail.page.vue')
@@ -116,7 +121,18 @@ const routes = [
             {
                 path: 'opportunities',
                 name: 'StudentOpportunities',
-                component: StudentOpportunitiesPage,
+                component: StudentOpportunitiesPage
+            },
+            // Luego agregaremos aquí Portafolio, Postulaciones, Perfil, etc.
+            {
+                path: 'profile',
+                name: 'StudentProfile',
+                component: MyProfilePage
+            },
+            {
+                path: 'profile/edit',
+                name: 'EditProfile',
+                component: EditProfilePage
             },
             {
                 path: 'opportunities/:id',

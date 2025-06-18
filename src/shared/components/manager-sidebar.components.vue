@@ -45,13 +45,6 @@ export default {
           :class="{ active: route.name === 'ManagerCompanyView' }"
       >Mi empresa
       </router-link>
-
-      <router-link
-          to="/manager/settings"
-          class="nav-item"
-          :class="{ active: route.name === 'ManagerSettings' }"
-      >Configuración
-      </router-link>
     </nav>
 
     <div class="logout">

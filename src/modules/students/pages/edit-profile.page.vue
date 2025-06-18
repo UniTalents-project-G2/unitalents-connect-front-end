@@ -1,14 +1,14 @@
-<script>
-import { CompanyService } from '@/modules/companies/services/company.service.js'
+﻿<script>
+import {StudentService} from "@/modules/students/services/student.service.js";
 import { UserService } from '@/modules/users/services/user.service.js'
 import EditTagsModal from '@/shared/components/edit-tags-modal.component.vue'
 
 export default {
-  name: 'EditCompanyPage',
+  name: 'EditProfilePage',
   components: { EditTagsModal },
   data() {
     return {
-      company: null,
+      student: null,
       user: null,
       isLoaded: false,
       showTagModal: false
@@ -16,17 +16,17 @@ export default {
   },
   async created() {
     try {
-      const companyService = new CompanyService()
+      const studentService = new StudentService()
       const userService = new UserService()
 
       const currentUserId = parseInt(localStorage.getItem('userId'))
-      const allCompanies = await companyService.getAll()
-      const company = allCompanies.find(c => c.userId === currentUserId)
+      const allStudents = await studentService.getAll()
+      const student = allStudents.find(c => c.userId === currentUserId)
 
-      if (!company) throw new Error('No se encontró la empresa del usuario.')
-      const user = await userService.getById(company.userId)
+      if (!student) throw new Error('No se encontró la empresa del usuario.')
+      const user = await userService.getById(student.userId)
 
-      this.company = { ...company }
+      this.student = { ...student }
       this.user = { ...user }
       this.isLoaded = true
     } catch (error) {
@@ -40,56 +40,27 @@ export default {
 
       const reader = new FileReader()
       reader.onload = (e) => {
-        const img = new Image()
-        img.onload = () => {
-          const canvas = document.createElement('canvas')
-          const maxWidth = 200
-          const maxHeight = 200
-          let width = img.width
-          let height = img.height
-
-          if (width > maxWidth || height > maxHeight) {
-            const scale = Math.min(maxWidth / width, maxHeight / height)
-            width *= scale
-            height *= scale
-          }
-
-          canvas.width = width
-          canvas.height = height
-          const ctx = canvas.getContext('2d')
-          ctx.drawImage(img, 0, 0, width, height)
-
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7)
-          this.company.logo = compressedBase64
-        }
-        img.src = e.target.result
+        this.company.logo = e.target.result
       }
       reader.readAsDataURL(file)
     },
     async saveChanges() {
       try {
-        const companyService = new CompanyService()
+        const studentService = new StudentService()
         const userService = new UserService()
 
-        // Recuperar usuario completo y conservar campos no editables
-        const originalUser = await userService.getById(this.user.id)
-        const updatedUser = {
-          ...originalUser,
-          name: this.user.name
-        }
-
-        await userService.update(this.user.id, updatedUser)
-        await companyService.update(this.company.id, this.company)
+        await userService.update(this.user.id, { name: this.user.name })
+        await studentService.update(this.company.id, this.company)
 
         alert('Cambios guardados exitosamente.')
-        this.$router.push({ name: 'ManagerCompany' })
+        this.$router.push({ name: 'StudentProfile' })
       } catch (err) {
         console.error('Error guardando cambios:', err)
         alert('Ocurrió un error al guardar.')
       }
     },
     cancel() {
-      this.$router.push({ name: 'ManagerCompany' })
+      this.$router.push({ name: 'StudentProfile' })
     }
   }
 }
@@ -97,42 +68,45 @@ export default {
 
 <template>
   <div class="edit-company" v-if="isLoaded">
-    <h1>Mi Empresa</h1>
+    <h1>Mi Perfil</h1>
 
     <div class="edit-form">
       <div class="image-column">
-        <img :src="company.logo || 'https://via.placeholder.com/150'" class="logo" />
+        <img :src="student.logo || 'https://via.placeholder.com/150'" class="logo" />
         <input type="file" accept="image/*" @change="handleImageChange" />
       </div>
 
       <div class="fields">
-        <label>Nombre</label>
-        <input v-model="company.companyName" type="text" />
-
-        <label>Creador</label>
+        <label>Nombre completo</label>
         <input v-model="user.name" type="text" />
 
-        <label>Ciudad/País</label>
-        <input v-model="company.location" type="text" />
+        <label>Fecha de Nacimiento</label>
+        <input v-model="student.birthdate" type="text" />
 
-        <label>Enfoque</label>
-        <input v-model="company.sector" type="text" />
+        <label>Ciudad</label>
+        <input v-model="student.city" type="text" />
 
-        <label>Correo electrónico</label>
-        <input v-model="company.email" type="email" />
+        <label>País</label>
+        <input v-model="student.country" type="text" />
+
+        <label>Carrera</label>
+        <input v-model="student.field" type="text" />
+
+        <label>Correo Electrónico</label>
+        <input v-model="user.email" type="email" />
 
         <label>Celular</label>
-        <input v-model="company.phone" type="text" />
+        <input v-model="student.phoneNumber" type="text" />
       </div>
     </div>
 
     <p class="subtitle">
-      Tecnologías y Especializaciones dentro de la empresa
+      Tecnologías y Especializaciones
       <button class="change-btn" @click="showTagModal = true">Cambiar</button>
     </p>
 
     <div class="tags">
-      <span class="tag" v-for="tag in company.specializations" :key="tag">{{ tag }}</span>
+      <span class="tag" v-for="tag in student.specializations" :key="tag">{{ tag }}</span>
     </div>
 
     <div class="actions">
@@ -142,7 +116,7 @@ export default {
 
     <EditTagsModal
         v-if="showTagModal"
-        v-model="company.specializations"
+        v-model="student.specializations"
         @close="showTagModal = false"
     />
   </div>

@@ -14,7 +14,8 @@ export class StudentService {
      * @returns {Promise<AxiosResponse<any>>}
      */
     getAll() {
-        return httpInstance.get(this.resourceEndpoint);
+        return httpInstance.get(this.resourceEndpoint)
+            .then(res => res.data.map(studentData => new Student(studentData)));
     }
 
     /**

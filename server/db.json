@@ -1,12 +1,6 @@
 {
   "users": [
-    {
-      "id": 1,
-      "email": "clittle@hotmail.com",
-      "password": "123456",
-      "role": "student",
-      "name": "David Barnes"
-    },
+    { "id": 1, "email": "clittle@hotmail.com", "password": "123456", "role": "student", "name": "David Barnes" },
     {
       "id": 2,
       "email": "ivasquez@gmail.com",
@@ -83,42 +77,98 @@
     {
       "id": 1,
       "userId": 1,
+      "birthdate": "24 de noviembre de 2002",
+      "city": "Lima",
+      "country": "Perú",
       "field": "Ciberseguridad",
+      "phoneNumber": "+51 568124563",
       "portfolioLink": "https://www.brown.com/",
       "aboutMe": "Test main respond. Opportunity nice customer lay good include.",
-      "rating": 4.7
+      "rating": 4.7,
+      "specializations": [
+        "Python",
+        "MatLab",
+        "Pandas",
+        "JavaScript",
+        "React"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 2,
       "userId": 2,
+      "birthdate": "23 de agosto de 1999",
+      "city": "Callao",
+      "country": "Perú",
       "field": "Analítica de Datos",
+      "phoneNumber": "+51 452361235",
       "portfolioLink": "https://bailey.org/",
       "aboutMe": "This Mrs future not. Under its they enough fly citizen order particular.",
-      "rating": 4.3
+      "rating": 4.3,
+      "specializations": [
+        "Machine Learning",
+        "JavaScript",
+        "C#",
+        "JavaScript"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 3,
       "userId": 3,
+      "birthdate": "02 de julio de 1998",
+      "city": "Lima",
+      "country": "Perú",
       "field": "Ingeniería de Software",
+      "phoneNumber": "+51 123698532",
       "portfolioLink": "http://miller-shepard.net/",
       "aboutMe": "Second above same you. Mrs try follow measure east article.",
-      "rating": 3.5
+      "rating": 3.5,
+      "specializations": [
+        "Angular",
+        "Vue",
+        "Ruby On Rails",
+        "JavaScript"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 4,
       "userId": 4,
+      "birthdate": "09 de enero de 2002",
+      "city": "Tacna",
+      "country": "Perú",
       "field": "Diseño Gráfico",
+      "phoneNumber": "+51 452125589",
       "portfolioLink": "http://garza.com/",
       "aboutMe": "Effect side energy fall. Organization ago follow his. Tax stay nature big for.",
-      "rating": 4.3
+      "rating": 4.3,
+      "specializations": [
+        "C++",
+        "SpringBoot",
+        "PHP",
+        "C#"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "id": 5,
       "userId": 5,
+      "birthdate": "24 de noviembre de 2002",
+      "city": "Chiclayo",
+      "country": "Perú",
       "field": "Ingeniería de Software",
+      "phoneNumber": "+51 745698236",
       "portfolioLink": "https://harmon-cervantes.com/",
       "aboutMe": "Carry activity tell drive ground increase before.",
-      "rating": 2.5
+      "rating": 2.5,
+      "specializations": [
+        "C++",
+        "SpringBoot",
+        "PHP",
+        "C#"
+      ],
+      "logo": "https://via.placeholder.com/150"
     },
     {
       "userId": 11,
@@ -132,7 +182,7 @@
     {
       "id": 1,
       "userId": 6,
-      "companyName": "R",
+      "companyName": "REC Studios",
       "sector": "Tecnología",
       "location": "Lima, Perú",
       "email": "contacto@ruizbautista.com",
@@ -143,7 +193,7 @@
         "Software",
         "Sistemas"
       ],
-      "logo": "https://via.placeholder.com/150",
+      "logo": "data:image/jpeg;base64,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",
       "description": "Soon edge similar. Join information bar son. Give through bad check seem their."
     },
     {
@@ -258,7 +308,9 @@
         "Graphic Design",
         "Branding"
       ],
-      "status": "Pendiente"
+      "status": "Pendiente",
+      "budget": 250,
+      "createdAt": "2025-06-11"
     },
     {
       "id": 3,
@@ -278,7 +330,10 @@
         "Statistics",
         "Data Visualization"
       ],
-      "status": "Pendiente"
+      "status": "Pendiente",
+      "budget": 130,
+      "createdAt": "2025-06-10"
+
     },
     {
       "id": 4,
