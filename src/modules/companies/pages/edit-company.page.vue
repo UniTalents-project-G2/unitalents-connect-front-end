@@ -40,7 +40,29 @@ export default {
 
       const reader = new FileReader()
       reader.onload = (e) => {
-        this.company.logo = e.target.result
+        const img = new Image()
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          const maxWidth = 200
+          const maxHeight = 200
+          let width = img.width
+          let height = img.height
+
+          if (width > maxWidth || height > maxHeight) {
+            const scale = Math.min(maxWidth / width, maxHeight / height)
+            width *= scale
+            height *= scale
+          }
+
+          canvas.width = width
+          canvas.height = height
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(img, 0, 0, width, height)
+
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7)
+          this.company.logo = compressedBase64
+        }
+        img.src = e.target.result
       }
       reader.readAsDataURL(file)
     },
@@ -49,7 +71,14 @@ export default {
         const companyService = new CompanyService()
         const userService = new UserService()
 
-        await userService.update(this.user.id, { name: this.user.name })
+        // Recuperar usuario completo y conservar campos no editables
+        const originalUser = await userService.getById(this.user.id)
+        const updatedUser = {
+          ...originalUser,
+          name: this.user.name
+        }
+
+        await userService.update(this.user.id, updatedUser)
         await companyService.update(this.company.id, this.company)
 
         alert('Cambios guardados exitosamente.')

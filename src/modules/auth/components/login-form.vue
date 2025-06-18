@@ -91,7 +91,7 @@ export default {
         this.$emit('success');
 
         const roleRoutes = {
-          company: () => '/manager/calls',
+          company: () => '/manager/projects',
           student: () => '/student/opportunities'
         };
 
