@@ -31,10 +31,10 @@
     },
     {
       "id": 6,
-      "name": "Joseph Davis",
       "email": "brucerush@hotmail.com",
       "password": "123456",
-      "role": "company"
+      "role": "company",
+      "name": "Joseph Davis"
     },
     {
       "id": 7,
@@ -297,9 +297,11 @@
       "studentSelected": null,
       "isFinished": false,
       "postulants": [
-        4
+        1
       ],
       "field": "Diseño Gráfico",
+      "budget": 250,
+      "createdAt": "2025-06-11",
       "skills": [
         "Adobe Photoshop",
         "Illustrator",
@@ -312,13 +314,15 @@
     },
     {
       "id": 3,
-      "companyId": 3,
       "title": "Data analysis for sales reports",
       "description": "Use Python or R to analyze historical sales data and generate actionable insights.",
-      "field": "Analítica de Datos",
+      "companyId": 3,
       "studentSelected": null,
       "isFinished": false,
       "postulants": [],
+      "field": "Analítica de Datos",
+      "budget": 130,
+      "createdAt": "2025-06-10",
       "skills": [
         "Python",
         "Pandas",
@@ -329,6 +333,7 @@
       "status": "Pendiente",
       "budget": 130,
       "createdAt": "2025-06-10"
+
     },
     {
       "id": 4,
@@ -408,6 +413,13 @@
       "projectId": 5,
       "status": "aceptado",
       "date": "2025-03-16"
+    },
+    {
+      "studentId": 1,
+      "projectId": 2,
+      "status": "enviado",
+      "date": "2025-06-16",
+      "id": 6
     }
   ],
   "completedProjects": [

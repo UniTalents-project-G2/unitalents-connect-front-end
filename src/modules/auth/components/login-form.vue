@@ -43,6 +43,8 @@
 import { UserService } from "@/modules/auth/services/user.service.js";
 import { useToast } from "primevue/usetoast";
 import { useRouter } from "vue-router";
+import { authStore } from "@/shared/stores/auth.store.js";
+
 
 export default {
   emits: ['success', 'error'],
@@ -76,7 +78,9 @@ export default {
           throw new Error("Contraseña incorrecta");
         }
 
-        // Guardar en localStorage
+        authStore.setUser(user);
+
+        // (opcional) Puedes seguir manteniendo localStorage si quieres compatibilidad
         localStorage.setItem('userId', user.id);
         localStorage.setItem('userRole', user.role);
         localStorage.setItem('userName', user.name);
@@ -110,7 +114,8 @@ export default {
           life: 3000,
         });
       }
-    },
+    }
+
   },
 };
 </script>
