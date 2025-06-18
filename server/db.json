@@ -1,6 +1,12 @@
 {
   "users": [
-    { "id": 1, "email": "clittle@hotmail.com", "password": "123456", "role": "student", "name": "David Barnes" },
+    {
+      "id": 1,
+      "name": "David Barnes",
+      "email": "clittle@hotmail.com",
+      "password": "123456",
+      "role": "student"
+    },
     {
       "id": 2,
       "email": "ivasquez@gmail.com",
@@ -77,7 +83,7 @@
     {
       "id": 1,
       "userId": 1,
-      "birthdate": "24 de noviembre de 2002",
+      "birthdate": "2000-01-08",
       "city": "Lima",
       "country": "Perú",
       "field": "Ciberseguridad",
@@ -92,12 +98,12 @@
         "JavaScript",
         "React"
       ],
-      "logo": "https://via.placeholder.com/150"
+      "logo": "data:image/jpeg;base64,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"
     },
     {
       "id": 2,
       "userId": 2,
-      "birthdate": "23 de agosto de 1999",
+      "birthdate": "2000-01-01",
       "city": "Callao",
       "country": "Perú",
       "field": "Analítica de Datos",
@@ -116,7 +122,7 @@
     {
       "id": 3,
       "userId": 3,
-      "birthdate": "02 de julio de 1998",
+      "birthdate": "2000-01-01",
       "city": "Lima",
       "country": "Perú",
       "field": "Ingeniería de Software",
@@ -135,7 +141,7 @@
     {
       "id": 4,
       "userId": 4,
-      "birthdate": "09 de enero de 2002",
+      "birthdate": "2000-01-01",
       "city": "Tacna",
       "country": "Perú",
       "field": "Diseño Gráfico",
@@ -154,7 +160,7 @@
     {
       "id": 5,
       "userId": 5,
-      "birthdate": "24 de noviembre de 2002",
+      "birthdate": "2000-01-01",
       "city": "Chiclayo",
       "country": "Perú",
       "field": "Ingeniería de Software",
@@ -308,9 +314,7 @@
         "Graphic Design",
         "Branding"
       ],
-      "status": "Pendiente",
-      "budget": 250,
-      "createdAt": "2025-06-11"
+      "status": "Pendiente"
     },
     {
       "id": 3,
@@ -330,10 +334,7 @@
         "Statistics",
         "Data Visualization"
       ],
-      "status": "Pendiente",
-      "budget": 130,
-      "createdAt": "2025-06-10"
-
+      "status": "Pendiente"
     },
     {
       "id": 4,

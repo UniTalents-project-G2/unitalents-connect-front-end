@@ -1,11 +1,10 @@
 ﻿<script>
-import {defineComponent} from 'vue'
-import {StudentService} from "@/modules/students/services/student.service.js";
-import {UserService} from "@/modules/auth/services/user.service.js";
+import { defineComponent } from 'vue'
+import { StudentService } from "@/modules/students/services/student.service.js";
+import { UserService } from "@/modules/auth/services/user.service.js";
 
 export default defineComponent({
   name: "MyProfilePage",
-  components: {},
   data() {
     return {
       profile: null,
@@ -19,22 +18,18 @@ export default defineComponent({
       const userService = new UserService();
       const currentUserId = parseInt(localStorage.getItem("userId"));
 
-      // 1. Obtener todos los estudiantes y filtrar
       const allStudents = await studentService.getAll();
       const student = allStudents.find(s => s.userId === currentUserId);
       if (!student) throw new Error('Estudiante no encontrado');
 
-      // 2. Obtener datos del usuario asociado
       const userResource = await userService.getById(student.userId);
 
-      // 3. Asignar a las propiedades reactivas (¡usa los nombres definidos en data()!)
-      this.profile = student; // o this.student si lo cambias en data()
+      this.profile = student;
       this.user = userResource.data;
       this.isLoaded = true;
 
     } catch (error) {
       console.error('Error cargando perfil:', error);
-      // Opcional: Mostrar un mensaje de error en la UI
     }
   },
   methods: {
@@ -52,23 +47,36 @@ export default defineComponent({
       <div class="student-card">
         <div class="left">
           <img class="logo" :src="profile.logo || 'https://via.placeholder.com/150'" alt="Logo Perfil" />
-          <div class="rating"> <!-- Rating ahora está aquí -->
+          <div class="rating">
             <span>⭐ {{ profile.rating }}</span>
           </div>
         </div>
         <div class="right">
-          <p><strong>Nombre completo:</strong> {{user.name}} </p>
-          <p><strong>Fecha de Nacimiento:</strong> {{profile.birthdate}}</p>
-          <p><strong>Ciudad/País:</strong> {{profile.city}} - {{profile.country}}</p>
-          <p><strong>Carrera:</strong> {{profile.field}}</p>
-          <p><strong>Correo electrónico:</strong> {{user.email}}</p>
-          <p><strong>Celular:</strong> {{profile.phoneNumber}}</p>
+          <p><strong>Nombre completo:</strong> {{ user.name }} </p>
+          <p><strong>Fecha de Nacimiento:</strong> {{ profile.birthdate }}</p>
+          <p><strong>Ciudad/País:</strong> {{ profile.city }} - {{ profile.country }}</p>
+          <p><strong>Carrera:</strong> {{ profile.field }}</p>
+          <p><strong>Correo electrónico:</strong> {{ user.email }}</p>
+          <p><strong>Celular:</strong> {{ profile.phoneNumber }}</p>
+          <p><strong>Portafolio:</strong>
+            <a v-if="profile.portfolioLink" :href="profile.portfolioLink" target="_blank" rel="noopener">
+              {{ profile.portfolioLink }}
+            </a>
+            <span v-else>No disponible</span>
+          </p>
         </div>
       </div>
-      <p class="about_me">{{profile.aboutMe}}</p>
-      <div class="tags">
-        <span v-for="(tag,index) in profile.specializations" :key="index" class="tag">{{tag}}</span>
+
+      <div class="about">
+        <h3>Acerca de mí</h3>
+        <p class="about_me">{{ profile.aboutMe || 'No se ha completado aún.' }}</p>
       </div>
+
+      <div class="tags">
+        <h3>Tecnologías y Especializaciones</h3>
+        <span v-for="(tag, index) in profile.specializations" :key="index" class="tag">{{ tag }}</span>
+      </div>
+
       <button class="edit-btn" @click="goToEdit">Modificar perfil</button>
     </div>
   </div>
@@ -102,8 +110,19 @@ export default defineComponent({
   margin: 1rem 0;
   font-size: 1.5rem;
 }
+.about {
+  margin-top: 2rem;
+}
+.about_me {
+  font-size: 1rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  white-space: pre-wrap;
+}
 .tags {
-  margin: 1rem 0;
+  margin: 2rem 0 1rem;
 }
 .tag {
   background-color: #cfd8dc;

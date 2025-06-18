@@ -1,5 +1,5 @@
 ﻿<script>
-import {StudentService} from "@/modules/students/services/student.service.js";
+import { StudentService } from "@/modules/students/services/student.service.js";
 import { UserService } from '@/modules/users/services/user.service.js'
 import EditTagsModal from '@/shared/components/edit-tags-modal.component.vue'
 
@@ -21,16 +21,16 @@ export default {
 
       const currentUserId = parseInt(localStorage.getItem('userId'))
       const allStudents = await studentService.getAll()
-      const student = allStudents.find(c => c.userId === currentUserId)
+      const student = allStudents.find(s => s.userId === currentUserId)
 
-      if (!student) throw new Error('No se encontró la empresa del usuario.')
+      if (!student) throw new Error('No se encontró el perfil del estudiante.')
       const user = await userService.getById(student.userId)
 
       this.student = { ...student }
       this.user = { ...user }
       this.isLoaded = true
     } catch (error) {
-      console.error('Error cargando empresa:', error)
+      console.error('Error cargando perfil:', error)
     }
   },
   methods: {
@@ -40,7 +40,29 @@ export default {
 
       const reader = new FileReader()
       reader.onload = (e) => {
-        this.company.logo = e.target.result
+        const img = new Image()
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          const maxWidth = 200
+          const maxHeight = 200
+          let width = img.width
+          let height = img.height
+
+          if (width > maxWidth || height > maxHeight) {
+            const scale = Math.min(maxWidth / width, maxHeight / height)
+            width *= scale
+            height *= scale
+          }
+
+          canvas.width = width
+          canvas.height = height
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(img, 0, 0, width, height)
+
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7)
+          this.student.logo = compressedBase64
+        }
+        img.src = e.target.result
       }
       reader.readAsDataURL(file)
     },
@@ -49,8 +71,15 @@ export default {
         const studentService = new StudentService()
         const userService = new UserService()
 
-        await userService.update(this.user.id, { name: this.user.name })
-        await studentService.update(this.company.id, this.company)
+        const originalUser = await userService.getById(this.user.id)
+        const updatedUser = {
+          ...originalUser,
+          name: this.user.name,
+          email: this.user.email
+        }
+
+        await userService.update(this.user.id, updatedUser)
+        await studentService.update(this.student.id, this.student)
 
         alert('Cambios guardados exitosamente.')
         this.$router.push({ name: 'StudentProfile' })
@@ -81,7 +110,7 @@ export default {
         <input v-model="user.name" type="text" />
 
         <label>Fecha de Nacimiento</label>
-        <input v-model="student.birthdate" type="text" />
+        <input v-model="student.birthdate" type="date" />
 
         <label>Ciudad</label>
         <input v-model="student.city" type="text" />
@@ -97,6 +126,12 @@ export default {
 
         <label>Celular</label>
         <input v-model="student.phoneNumber" type="text" />
+
+        <label>Acerca de mí</label>
+        <textarea v-model="student.aboutMe" rows="4"></textarea>
+
+        <label>Enlace a portafolio</label>
+        <input v-model="student.portfolioLink" type="url" />
       </div>
     </div>
 
@@ -156,7 +191,8 @@ export default {
   font-weight: bold;
   margin-top: 0.5rem;
 }
-.fields input {
+.fields input,
+.fields textarea {
   padding: 0.5rem;
   border-radius: 6px;
   border: 1px solid #ccc;

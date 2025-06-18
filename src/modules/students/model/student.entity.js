@@ -1,5 +1,18 @@
 export class Student {
-    constructor({ id, userId, birthdate, city, country, field, phoneNumber, portfolioLink, aboutMe, rating, specializations,logo}) {
+    constructor({
+                    id = null,
+                    userId = null,
+                    birthdate = '',
+                    city = '',
+                    country = '',
+                    field = '',
+                    phoneNumber = '',
+                    portfolioLink = '',
+                    aboutMe = '',
+                    rating = 0,
+                    specializations = [],
+                    logo = ''
+                } = {}) {
         this.id = id;
         this.userId = userId;
         this.birthdate = birthdate;
@@ -10,7 +23,7 @@ export class Student {
         this.portfolioLink = portfolioLink;
         this.aboutMe = aboutMe;
         this.rating = rating;
-        this.specializations = specializations || [];
+        this.specializations = specializations;
         this.logo = logo;
     }
 }
