@@ -311,4 +311,43 @@ export default {
   background-color: #F44336;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .project-detail {
+    padding: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .apply-btn, .view-company-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .meta p {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .skills-list {
+    flex-direction: column;
+  }
+
+  .skill-tag {
+    width: fit-content;
+  }
+}
 </style>

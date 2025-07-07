@@ -21,5 +21,15 @@ export default {
 </template>
 
 <style scoped>
+h1 {
+  padding: 20px;
+  margin: 0;
+}
 
+@media (max-width: 768px) {
+  h1 {
+    padding: 15px;
+    font-size: 1.5rem;
+  }
+}
 </style>

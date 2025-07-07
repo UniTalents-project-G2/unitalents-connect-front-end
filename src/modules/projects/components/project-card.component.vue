@@ -172,5 +172,21 @@ h3 {
   h3 {
     font-size: 1rem;
   }
+
+  .field, .description {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .skills-list {
+    flex-direction: column;
+  }
 }
 </style>
