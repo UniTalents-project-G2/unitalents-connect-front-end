@@ -138,13 +138,18 @@ h1 {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 1.5rem;
   }
 
   h1 {
     font-size: 1.5rem;
   }
 
+  .new-project-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
   .projects-grid {
     grid-template-columns: 1fr;
   }

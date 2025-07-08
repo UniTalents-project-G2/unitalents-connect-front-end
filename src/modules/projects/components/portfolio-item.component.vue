@@ -89,4 +89,21 @@ export default {
   font-size: 0.75rem;
   color: #4B5563;
 }
+
+@media (max-width: 768px) {
+  .portfolio-card {
+    padding: 1rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 </style>
