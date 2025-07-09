@@ -11,7 +11,7 @@ export default {
 <template>
   <div class="card">
     <div class="left">
-      <img class="avatar" :src="student.image || 'https://i.pravatar.cc/100?img=3'" alt="Foto del estudiante" />
+      <img class="avatar" :src="student.logo || 'https://i.pravatar.cc/100?img=3'" alt="Foto del estudiante" />
     </div>
     <div class="center">
       <h3>{{ student.name }}</h3>
@@ -53,6 +53,11 @@ export default {
 
 .left {
   flex: 0 0 90px;
+}
+
+.left img{
+  width: 150px;
+  height: 150px;
 }
 
 .center {

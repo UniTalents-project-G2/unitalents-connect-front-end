@@ -65,7 +65,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 900px;
+  max-width: 1200px;
   width: 100%;
   min-height: 75vh;
   border: 2px solid #1C1F2B;
