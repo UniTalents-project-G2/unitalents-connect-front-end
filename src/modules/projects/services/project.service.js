@@ -33,12 +33,13 @@ export class ProjectService {
     async update(id, projectData) {
         const dataToSend = {
             ...projectData,
-            isFinished: projectData.status === 'Finalizado',
-            studentSelected: projectData.status === 'En curso' ? null : projectData.studentSelected
+            isFinished: projectData.status === 'Finalizado'
+            // Ya no forzamos studentSelected a null
         }
-        const response = await http.put(`/projects/${id}`, dataToSend)
-        return new Project(response.data)
+        const response = await http.put(`/projects/${id}`, dataToSend);
+        return new Project(response.data);
     }
+
 
     async delete(id) {
         await http.delete(`/projects/${id}`);

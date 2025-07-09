@@ -1,13 +1,18 @@
 <script>
 import { projectService } from '@/modules/projects/services/project.service'
 import { CompanyService } from '@/modules/companies/services/company.service'
+import { ReputationService } from '@/modules/reputations/services/reputation.service'
+import { StudentService } from '@/modules/students/services/student.service'
+import ReputationForm from '@/modules/reputations/components/ReputationForm.vue'
 
 export default {
   name: 'ProjectDetailPage',
+  components: { ReputationForm },
   data() {
     return {
       project: null,
       isEditing: false,
+      mostrarFormularioReputacion: false,
       editData: {
         title: '',
         description: '',
@@ -134,6 +139,41 @@ export default {
       } else {
         this.$router.push('/manager/projects');
       }
+    },
+    finalizarProyecto() {
+      this.mostrarFormularioReputacion = true;
+    },
+    async enviarReputacion(data) {
+      const reputationService = new ReputationService();
+      const studentService = new StudentService();
+
+      await reputationService.create(data);
+
+      const studentReps = await reputationService.getByStudentId(data.studentId);
+      const promedio = (
+          studentReps.reduce((acc, r) => acc + r.rating, 0) / studentReps.length
+      ).toFixed(1);
+
+      this.project.status = 'Finalizado';
+      this.project.isFinished = true;
+      this.project.studentSelected = data.studentId;
+      await projectService.update(this.project.id, this.project);
+
+      const student = await studentService.getById(data.studentId);
+      student.rating = parseFloat(promedio);
+
+      if (!Array.isArray(student.endedProjects)) {
+        student.endedProjects = [];
+      }
+
+      if (!student.endedProjects.includes(this.project.id)) {
+        student.endedProjects.push(this.project.id);
+      }
+
+      await studentService.update(data.studentId, student);
+
+      this.mostrarFormularioReputacion = false;
+      await this.loadProject(this.project.id);
     }
   },
   watch: {
@@ -176,13 +216,11 @@ export default {
     <div v-else-if="!isEditing && project" class="project-info">
       <div class="header">
         <h1>{{ project.title }}</h1>
+        <div class="header-actions">
+          <button @click="startEditing" class="button yellow">Editar</button>
+          <button @click="deleteProject" class="button gray">Eliminar</button>
+        </div>
       </div>
-
-      <div class="header-actions">
-        <button @click="startEditing" class="button yellow">Editar</button>
-        <button @click="deleteProject" class="button gray">Eliminar</button>
-      </div>
-
 
       <p><strong>Estado:</strong> {{ project.status }}</p>
       <p><strong>Área:</strong> {{ project.field }}</p>
@@ -196,6 +234,19 @@ export default {
       </div>
 
       <p><strong>Descripción:</strong> {{ project.description }}</p>
+
+      <!-- Mostrar botón y formulario si proyecto está en curso -->
+      <div v-if="project.status === 'En curso' && project.studentSelected">
+        <button class="button yellow" @click="finalizarProyecto">Finalizar Proyecto</button>
+      </div>
+
+      <!-- Formulario de reputación -->
+      <ReputationForm
+          v-if="mostrarFormularioReputacion"
+          :studentId="project.studentSelected"
+          :projectId="project.id"
+          @submit="enviarReputacion"
+      />
     </div>
 
     <!-- Formulario editar / nuevo -->
@@ -247,6 +298,7 @@ export default {
     </div>
   </div>
 </template>
+
 
 
 

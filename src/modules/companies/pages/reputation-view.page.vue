@@ -6,6 +6,7 @@ import { ProjectService } from '@/modules/projects/services/project.service.js';
 import { ReputationService } from '@/modules/students/services/reputation.service.js';
 import { StudentService } from '@/modules/students/services/student.service.js';
 import { UserService } from '@/modules/users/services/user.service.js';
+import { postulationService } from '@/modules/student-postulations/services/postulation.service.js';
 
 export default {
   name: 'ReputationViewPage',
@@ -39,9 +40,12 @@ export default {
 
       this.student = studentData;
       this.user = usersData.find(u => u.id === studentData.userId);
-      this.reputations = reputationsData;
+      this.reputations = reputationsData || [];
     } catch (error) {
       console.error('Error cargando reputación:', error);
+      this.student = null;
+      this.user = null;
+      this.reputations = [];
     }
   },
   methods: {
@@ -52,13 +56,26 @@ export default {
       }
 
       try {
+        // 1. Obtener el proyecto original
         const project = await this.projectService.getById(this.projectId);
+
+        // 2. Actualizar studentSelected y status del proyecto
         const updatedProject = {
           ...project,
-          studentSelected: this.student.id
+          studentSelected: this.student.id,
+          status: 'En curso'
         };
 
         await this.projectService.update(this.projectId, updatedProject);
+
+        // 3. Obtener todas las postulaciones a este proyecto
+        const postulaciones = await postulationService.getByProject(this.projectId);
+
+        // 4. Actualizar el estado de cada postulación
+        for (const post of postulaciones) {
+          const newStatus = post.studentId === this.student.id ? 'aceptado' : 'rechazado';
+          await postulationService.update(post.id, { ...post, status: newStatus });
+        }
 
         alert('Estudiante aceptado ✅');
         this.$router.push('/manager/calls');
@@ -67,6 +84,7 @@ export default {
         alert('Ocurrió un error al aceptar al postulante ❌');
       }
     }
+
   }
 };
 </script>
@@ -143,7 +161,7 @@ export default {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
   flex-wrap: wrap;
-  gap: 3rem; /* Aquí aumentamos el espacio entre imagen e info */
+  gap: 3rem;
 }
 
 .header img {
@@ -227,7 +245,6 @@ li {
   background-color: #f7c600;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
@@ -243,5 +260,4 @@ li {
     margin-top: 1rem;
   }
 }
-
 </style>
