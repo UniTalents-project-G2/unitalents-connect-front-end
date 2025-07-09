@@ -2,7 +2,12 @@
 import { useRouter, useRoute } from 'vue-router';
 
 export default {
-  name: 'Sidebar',
+  name: 'ManagerSidebar',
+  data() {
+    return {
+      isOpen: false
+    };
+  },
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -14,44 +19,67 @@ export default {
 
     return {
       route,
-      logout
+      logout,
+      router
     };
+  },
+  methods: {
+    toggleSidebar() {
+      this.isOpen = !this.isOpen;
+    },
+    closeSidebar() {
+      this.isOpen = false;
+    }
   }
 };
 </script>
 
 <template>
-  <div class="sidebar">
-    <div class="logo">
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgvCsufMnEbJGV3lUDDIVJzrt_0h1LGoGcW26SsmrCMYUPOxVrSBrtAWYePDBixX3g5mOd0W_9y6Gb4NfTtCRYxKssHvlzuKRm2siI6k3oT1UeSGwNcw7nIYroOFQZ8rXjgVkMFNorTd-65rgFev0NW6Xitt3gTTuMMSWx6NF9yPejDrCvTLdX5AnBQ_UE/s832/LogoUniTalents%20Connect.png" alt="UniTalents Connect" />
-    </div>
-    <nav class="nav">
-      <router-link
-          to="/manager/projects"
-          class="nav-item"
-          :class="{ active: route.name === 'ManagerProjects' }"
-      >Proyectos
-      </router-link>
-      <router-link
-          to="/manager/calls"
-          class="nav-item"
-          :class="{ active: route.name === 'ManagerCalls' }"
-      >Convocatorias
-      </router-link>
+  <div>
+    <!-- Botón hamburguesa solo visible en móviles -->
+    <button class="hamburger-btn" @click="toggleSidebar">
+      ☰
+    </button>
 
-      <router-link
-          to="/manager/company"
-          class="nav-item"
-          :class="{ active: route.name === 'ManagerCompanyView' }"
-      >Mi empresa
-      </router-link>
-    </nav>
+    <!-- Sidebar -->
+    <div class="sidebar" :class="{ open: isOpen }">
+      <div class="logo">
+        <img
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgvCsufMnEbJGV3lUDDIVJzrt_0h1LGoGcW26SsmrCMYUPOxVrSBrtAWYePDBixX3g5mOd0W_9y6Gb4NfTtCRYxKssHvlzuKRm2siI6k3oT1UeSGwNcw7nIYroOFQZ8rXjgVkMFNorTd-65rgFev0NW6Xitt3gTTuMMSWx6NF9yPejDrCvTLdX5AnBQ_UE/s832/LogoUniTalents%20Connect.png"
+            alt="UniTalents Connect"
+        />
+      </div>
 
-    <div class="logout">
-      <button @click="logout">Cerrar sesión</button>
+      <nav class="nav">
+        <router-link
+            to="/manager/projects"
+            class="nav-item"
+            :class="{ active: route.name === 'ManagerProjects' }"
+            @click="closeSidebar"
+        >Proyectos</router-link>
+
+        <router-link
+            to="/manager/calls"
+            class="nav-item"
+            :class="{ active: route.name === 'ManagerCalls' }"
+            @click="closeSidebar"
+        >Convocatorias</router-link>
+
+        <router-link
+            to="/manager/company"
+            class="nav-item"
+            :class="{ active: route.name === 'ManagerCompanyView' }"
+            @click="closeSidebar"
+        >Mi empresa</router-link>
+      </nav>
+
+      <div class="logout">
+        <button @click="logout">Cerrar sesión</button>
+      </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .sidebar {
@@ -63,6 +91,40 @@ export default {
   justify-content: space-between;
   padding: 1.5rem 1rem;
   height: 100vh;
+  transition: transform 0.3s ease;
+}
+
+.hamburger-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+  background: #fdd567;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: none;
+}
+
+@media (max-width: 945px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 998;
+    width: 220px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
 }
 
 .logo {
@@ -73,11 +135,6 @@ export default {
 .logo img {
   width: 200px;
   margin-bottom: 0.5rem;
-}
-
-.logo h2 {
-  font-size: 1.1rem;
-  color: white;
 }
 
 .nav {
@@ -107,10 +164,6 @@ export default {
   color: black;
 }
 
-.icon {
-  font-size: 1.2rem;
-}
-
 .logout {
   margin-top: auto;
   padding-top: 2rem;
@@ -128,4 +181,5 @@ export default {
 .logout button:hover {
   text-decoration: underline;
 }
+
 </style>

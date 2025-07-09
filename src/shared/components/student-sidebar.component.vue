@@ -3,13 +3,14 @@ import { useRouter, useRoute } from 'vue-router';
 
 export default {
   name: 'StudentSidebar',
+  data() {
+    return {
+      isOpen: false
+    };
+  },
   setup() {
     const router = useRouter();
     const route = useRoute();
-
-    const goTo = (path) => {
-      router.push(path);
-    };
 
     const logout = () => {
       localStorage.clear();
@@ -17,40 +18,58 @@ export default {
     };
 
     return {
+      router,
       route,
-      goTo,
       logout
     };
+  },
+  methods: {
+    toggleSidebar() {
+      this.isOpen = !this.isOpen;
+    },
+    navigateAndClose(path) {
+      this.router.push(path);
+      this.isOpen = false;
+    }
   }
 };
 </script>
 
 <template>
-  <div class="sidebar">
-    <div class="logo">
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgvCsufMnEbJGV3lUDDIVJzrt_0h1LGoGcW26SsmrCMYUPOxVrSBrtAWYePDBixX3g5mOd0W_9y6Gb4NfTtCRYxKssHvlzuKRm2siI6k3oT1UeSGwNcw7nIYroOFQZ8rXjgVkMFNorTd-65rgFev0NW6Xitt3gTTuMMSWx6NF9yPejDrCvTLdX5AnBQ_UE/s832/LogoUniTalents%20Connect.png" alt="UniTalents Connect" />
-    </div>
+  <div>
+    <!-- Botón hamburguesa solo visible en móviles -->
+    <button class="hamburger-btn" @click="toggleSidebar">
+      ☰
+    </button>
 
-    <nav class="nav">
-      <div class="nav-item" @click="goTo('/student/opportunities')" :class="{ active: route.path === '/student/opportunities' }">
-        Oportunidades
+    <!-- Sidebar -->
+    <div class="sidebar" :class="{ open: isOpen }">
+      <div class="logo">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgvCsufMnEbJGV3lUDDIVJzrt_0h1LGoGcW26SsmrCMYUPOxVrSBrtAWYePDBixX3g5mOd0W_9y6Gb4NfTtCRYxKssHvlzuKRm2siI6k3oT1UeSGwNcw7nIYroOFQZ8rXjgVkMFNorTd-65rgFev0NW6Xitt3gTTuMMSWx6NF9yPejDrCvTLdX5AnBQ_UE/s832/LogoUniTalents%20Connect.png" alt="UniTalents Connect" />
       </div>
-      <div class="nav-item" @click="goTo('/student/portfolio')" :class="{ active: route.path === '/student/portfolio' }">
-        Portafolio
-      </div>
-      <div class="nav-item" @click="goTo('/student/postulations')" :class="{ active: route.path === '/student/postulations' }">
-        Mis Postulaciones
-      </div>
-      <div class="nav-item" @click="goTo('/student/profile')" :class="{ active: route.path === '/student/profile' }">
-        Perfil
-      </div>
-    </nav>
 
-    <div class="logout">
-      <button @click="logout">Cerrar sesión</button>
+      <nav class="nav">
+        <div class="nav-item" @click="navigateAndClose('/student/opportunities')" :class="{ active: route.path === '/student/opportunities' }">
+          Oportunidades
+        </div>
+        <div class="nav-item" @click="navigateAndClose('/student/portfolio')" :class="{ active: route.path === '/student/portfolio' }">
+          Portafolio
+        </div>
+        <div class="nav-item" @click="navigateAndClose('/student/postulations')" :class="{ active: route.path === '/student/postulations' }">
+          Mis Postulaciones
+        </div>
+        <div class="nav-item" @click="navigateAndClose('/student/profile')" :class="{ active: route.path === '/student/profile' }">
+          Perfil
+        </div>
+      </nav>
+
+      <div class="logout">
+        <button @click="logout">Cerrar sesión</button>
+      </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .sidebar {
@@ -62,6 +81,42 @@ export default {
   justify-content: space-between;
   padding: 1.5rem 1rem;
   height: 100vh;
+  transition: transform 0.3s ease;
+}
+
+/* Botón hamburguesa */
+.hamburger-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+  background: #fdd567;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: none; /* Oculto por defecto */
+}
+
+/* Responsive: mostrar botón y ocultar sidebar */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 998;
+    width: 220px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
 }
 
 .logo {
@@ -80,16 +135,12 @@ export default {
 }
 
 .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
   color: white;
-  text-decoration: none;
   border-radius: 8px;
-  transition: background-color 0.2s ease;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .nav-item:hover {
@@ -113,10 +164,10 @@ export default {
   color: #fdd567;
   font-weight: bold;
   cursor: pointer;
-  padding: 0.5rem 1rem;
 }
 
 .logout button:hover {
   text-decoration: underline;
 }
+
 </style>
