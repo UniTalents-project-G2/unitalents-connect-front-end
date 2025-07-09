@@ -41,27 +41,33 @@ export default {
         userService.getAll()
       ]);
 
-      // OJO: el studentService devuelve el AxiosResponse completo
-      const students = studentRes.map(s => s); // ya que no tenemos entidad en el service
+      const students = studentRes.map(s => s); // ya que no usamos entidad
 
       this.project = project;
       this.students = students;
       this.users = users;
 
-      // Procesamos los postulantes
       this.postulantStudents = this.project.postulants.map(studentId => {
         const student = this.students.find(s => s.id === studentId);
         const user = this.users.find(u => u.id === student?.userId);
+
+        console.log('studentId:', studentId);
+        console.log('student encontrado:', student);
+        console.log('user encontrado:', user);
+
+
         if (!student || !user) return null;
 
         return {
-          ...student,
+          id: student.id,
+          userId: student.userId,
           name: user.name,
           rating: student.rating,
           field: student.field,
           portfolioLink: student.portfolioLink,
-          skills: this.generateSkills()
-        }
+          skills: student.specializations || [],
+          logo: student.logo
+        };
       }).filter(Boolean);
 
       this.isLoaded = true;
@@ -81,18 +87,9 @@ export default {
         return fieldOk && skillOk && ratingOk;
       });
     }
-  },
-
-  methods: {
-    generateSkills() {
-      const pool = [['Python', 'MatLab'], ['Social Media'], ['Vue.js', 'Node.js'], ['Excel', 'SQL']];
-      return pool[Math.floor(Math.random() * pool.length)];
-    }
   }
-};
+}
 </script>
-
-
 
 <template>
   <div class="layout">
@@ -138,8 +135,6 @@ export default {
             :student="student"
             :project-id="project.id"
         />
-
-
       </template>
 
       <template v-else>

@@ -103,4 +103,34 @@ button {
 button:hover {
   background-color: #f3c13c;
 }
+
+@media (max-width: 768px) {
+  .card {
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .price {
+    font-size: 1.3rem;
+  }
+
+  button {
+    padding: 8px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    max-width: 100%;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
 </style>

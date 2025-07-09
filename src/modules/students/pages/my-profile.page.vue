@@ -46,7 +46,11 @@ export default defineComponent({
       <h1>Mi Perfil</h1>
       <div class="student-card">
         <div class="left">
-          <img class="logo" :src="profile.logo || 'https://via.placeholder.com/150'" alt="Logo Perfil" />
+          <img
+              class="logo"
+              :src="profile.logo || 'https://via.placeholder.com/150'"
+              alt="Logo Perfil"
+          />
           <div class="rating">
             <span>⭐ {{ profile.rating }}</span>
           </div>
@@ -58,8 +62,14 @@ export default defineComponent({
           <p><strong>Carrera:</strong> {{ profile.field }}</p>
           <p><strong>Correo electrónico:</strong> {{ user.email }}</p>
           <p><strong>Celular:</strong> {{ profile.phoneNumber }}</p>
-          <p><strong>Portafolio:</strong>
-            <a v-if="profile.portfolioLink" :href="profile.portfolioLink" target="_blank" rel="noopener">
+          <p>
+            <strong>Portafolio:</strong>
+            <a
+                v-if="profile.portfolioLink"
+                :href="profile.portfolioLink"
+                target="_blank"
+                rel="noopener"
+            >
               {{ profile.portfolioLink }}
             </a>
             <span v-else>No disponible</span>
@@ -74,7 +84,11 @@ export default defineComponent({
 
       <div class="tags">
         <h3>Tecnologías y Especializaciones</h3>
-        <span v-for="(tag, index) in profile.specializations" :key="index" class="tag">{{ tag }}</span>
+        <span
+            v-for="(tag, index) in profile.specializations"
+            :key="index"
+            class="tag"
+        >{{ tag }}</span>
       </div>
 
       <button class="edit-btn" @click="goToEdit">Modificar perfil</button>
@@ -85,14 +99,21 @@ export default defineComponent({
 <style scoped>
 .layout {
   display: flex;
+  width: 100%;
+  overflow-x: hidden;
 }
+
 .content {
   padding: 2rem;
   width: 100%;
   background-color: #f4eddf;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
+
 .student-card {
   display: flex;
+  flex-wrap: wrap;
   background: white;
   border: 2px solid #222;
   border-radius: 10px;
@@ -100,19 +121,33 @@ export default defineComponent({
   gap: 2rem;
   align-items: center;
 }
+
 .left {
   flex: 0 0 200px;
 }
+
+.logo {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  border-radius: 6px;
+}
+
 .right {
   flex: 1;
+  min-width: 200px;
+  word-break: break-word;
 }
+
 .rating {
   margin: 1rem 0;
   font-size: 1.5rem;
 }
+
 .about {
   margin-top: 2rem;
 }
+
 .about_me {
   font-size: 1rem;
   background: white;
@@ -121,9 +156,11 @@ export default defineComponent({
   padding: 1rem;
   white-space: pre-wrap;
 }
+
 .tags {
   margin: 2rem 0 1rem;
 }
+
 .tag {
   background-color: #cfd8dc;
   padding: 0.4rem 1rem;
@@ -131,6 +168,7 @@ export default defineComponent({
   border-radius: 20px;
   display: inline-block;
 }
+
 .edit-btn {
   background-color: #fdd567;
   border: none;
@@ -139,5 +177,32 @@ export default defineComponent({
   font-size: 1rem;
   cursor: pointer;
   margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .student-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .left {
+    flex: unset;
+  }
+
+  .right {
+    width: 100%;
+    text-align: left;
+  }
+
+  .logo {
+    margin: 0 auto;
+  }
+
+  .edit-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 </style>

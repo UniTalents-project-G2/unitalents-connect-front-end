@@ -1,6 +1,6 @@
 // src/modules/projects/services/postulation.service.js
 import httpInstance from "@/shared/services/http.instance";
-import { StudentPostulation} from "@/modules/student-postulations/model/student-postulation.entity.js";
+import { StudentPostulation } from "@/modules/student-postulations/model/student-postulation.entity.js";
 import { CompanyService } from "@/modules/companies/services/company.service";
 
 const companyService = new CompanyService();
@@ -36,6 +36,15 @@ export const postulationService = {
         }
     },
 
+    async update(postulationId, data) {
+        try {
+            const response = await httpInstance.put(`/postulations/${postulationId}`, data);
+            return new StudentPostulation(response.data);
+        } catch (error) {
+            console.error("Error updating postulation:", error);
+            throw error;
+        }
+    },
 
     async getCompaniesForProjects(projectIds) {
         try {
