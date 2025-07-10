@@ -1,6 +1,5 @@
 <script>
 import { UserService } from "@/modules/auth/services/user.service.js";
-import { FieldService } from '@/shared/services/field.service';
 import { useToast } from "primevue/usetoast";
 import { useRouter } from "vue-router";
 import { CompanyService } from "@/modules/companies/services/company.service.js";
@@ -16,16 +15,14 @@ export default {
   data() {
     return {
       role: 'student',
-      fields: [],
       userService: new UserService(),
-      fieldService: new FieldService(),
       studentService: new StudentService(),
       companyService: new CompanyService(),
       form: {
         name: '',
         email: '',
         password: '',
-        fieldId: '', // para student
+        field: '', // texto libre
         birthdate: '',
         city: '',
         country: '',
@@ -39,25 +36,11 @@ export default {
     };
   },
   methods: {
-    async loadFields() {
-      try {
-        const response = await this.fieldService.getAll();
-        this.fields = response.data;
-      } catch (error) {
-        this.toast.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to load fields',
-          life: 3000
-        });
-      }
-    },
     redirectToLogin() {
-      this.router.push('/login');
+      this.$router.push('/login');
     },
     async handleSubmit() {
       try {
-        // 1. Crear usuario
         const res = await this.userService.create({
           name: this.form.name,
           email: this.form.email,
@@ -66,15 +49,13 @@ export default {
         });
         const user = res.data;
 
-        // 2. Crear perfil según rol
         if (this.role === 'student') {
-          const field = this.fields.find(f => f.id === this.form.fieldId);
           await this.studentService.create({
             userId: user.id,
             birthdate: this.form.birthdate,
             city: this.form.city,
             country: this.form.country,
-            field: field?.name || '',
+            field: this.form.field, // ahora texto
             phoneNumber: this.form.phoneNumber,
             portfolioLink: this.form.portfolioLink,
             rating: 5,
@@ -82,9 +63,8 @@ export default {
             logo: '',
             aboutMe: '',
             endedProjects: []
-
           });
-        } else if (this.role === 'manager') {
+        } else if (this.role === 'company') {
           await this.companyService.create({
             userId: user.id,
             companyName: this.form.companyName,
@@ -95,8 +75,7 @@ export default {
             rating: 5,
             specializations: [],
             logo: '',
-            description: null,
-
+            description: null
           });
         }
 
@@ -120,12 +99,10 @@ export default {
         });
       }
     }
-  },
-  mounted() {
-    this.loadFields();
   }
 };
 </script>
+
 
 <template>
   <div class="auth-form-container">
@@ -184,15 +161,13 @@ export default {
         <div class="form-grid">
           <div class="form-group">
             <label for="portfolioLink">Portfolio Link</label>
-            <input id="portfolioLink" v-model="form.portfolioLink" type="url" class="form-input" />
+            <input id="portfolioLink" v-model="form.portfolioLink" type="url" class="form-input"  />
           </div>
           <div class="form-group">
             <label for="field">Field</label>
-            <select id="field" v-model="form.fieldId" class="form-input">
-              <option disabled value="">Select a field</option>
-              <option v-for="field in fields" :key="field.id" :value="field.id">{{ field.name }}</option>
-            </select>
+            <input id="field" v-model="form.field" type="text" class="form-input" />
           </div>
+
         </div>
 
       </template>
