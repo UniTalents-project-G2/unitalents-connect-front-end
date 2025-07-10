@@ -333,7 +333,7 @@
       "location": "Bellavista, Callao",
       "email": "quispe@mail.com",
       "phone": "995 091 772",
-      "rating": "4.5",
+      "rating": 4,
       "specializations": [
         "Industria 4.0",
         "Automatización"

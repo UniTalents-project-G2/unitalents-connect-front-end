@@ -192,4 +192,44 @@ select {
   font-weight: bold;
   margin-top: 2rem;
 }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.filters select,
+.filters .btn {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 160px;
+}
+
+.filters .btn {
+  background-color: #fdd567;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.filters .btn:hover {
+  background-color: #fccc4e;
+}
+
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters select,
+  .filters .btn {
+    width: 100%;
+  }
+}
+
 </style>

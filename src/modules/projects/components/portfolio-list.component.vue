@@ -1,3 +1,23 @@
+<template>
+  <div class="portfolio-list">
+    <h2 class="list-title">Proyectos Completados</h2>
+
+    <div class="projects-container" v-if="!loading">
+      <PortfolioItem
+          v-for="project in completedProjects"
+          :key="project.id"
+          :project="project"
+      />
+    </div>
+
+    <div v-else>Cargando proyectos...</div>
+
+    <div v-show="!loading && completedProjects.length === 0" class="empty-message">
+      No hay proyectos completados
+    </div>
+  </div>
+</template>
+
 <script>
 import { ref, onMounted } from 'vue';
 import { projectService } from "@/modules/projects/services/project.service.js";
@@ -31,7 +51,6 @@ export default {
           return;
         }
 
-        // Obtener los proyectos por cada ID en endedProjects
         const projectPromises = student.endedProjects.map(id => projectService.getById(id));
         const projects = await Promise.all(projectPromises);
 
@@ -47,54 +66,23 @@ export default {
 
     return { completedProjects, loading };
   }
-};
+}
 </script>
-
-
-<template>
-  <div class="portfolio-list">
-    <h2 class="list-title">Proyectos Completados</h2>
-
-    <div class="projects-grid" v-if="!loading">
-      <PortfolioItem
-          v-for="project in completedProjects"
-          :key="project.id"
-          :project="project"
-      />
-    </div>
-
-    <div v-else>Cargando proyectos...</div>
-
-    <div v-show="!loading && completedProjects.length === 0" class="empty-message">
-      No hay proyectos completados
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .portfolio-list {
   padding: 20px;
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+.projects-container {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 @media (max-width: 768px) {
   .portfolio-list {
     padding: 15px;
-  }
-
-  .projects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
   }
 }
 </style>
