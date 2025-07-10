@@ -18,8 +18,7 @@ export default defineComponent({
       const userService = new UserService();
       const currentUserId = parseInt(localStorage.getItem("userId"));
 
-      const allStudents = await studentService.getAll();
-      const student = allStudents.find(s => s.userId === currentUserId);
+      const student = await studentService.getByUserId(currentUserId);
       if (!student) throw new Error('Estudiante no encontrado');
 
       const userResource = await userService.getById(student.userId);

@@ -65,22 +65,15 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        const response = await this.userService.getByEmail(this.form.email);
-        const users = response.data;
+        const loginResponse = await this.userService.login(this.form);
 
-        if (users.length === 0) {
-          throw new Error("Correo no registrado");
-        }
+        const { token, user } = loginResponse.data;
 
-        const user = users[0];
+        // Guarda el token
+        localStorage.setItem('token', token);
 
-        if (user.password !== this.form.password) {
-          throw new Error("Contraseña incorrecta");
-        }
-
+        // Guarda info del usuario
         authStore.setUser(user);
-
-        // (opcional) Puedes seguir manteniendo localStorage si quieres compatibilidad
         localStorage.setItem('userId', user.id);
         localStorage.setItem('userRole', user.role);
         localStorage.setItem('userName', user.name);
@@ -110,11 +103,12 @@ export default {
         this.toast.add({
           severity: "error",
           summary: "Error de autenticación",
-          detail: error.message || "Ocurrió un error",
+          detail: error.response?.data?.message || error.message || "Ocurrió un error",
           life: 3000,
         });
       }
     }
+
 
   },
 };

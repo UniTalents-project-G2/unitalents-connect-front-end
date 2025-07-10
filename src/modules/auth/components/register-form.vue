@@ -41,6 +41,7 @@ export default {
     },
     async handleSubmit() {
       try {
+        // Crear el usuario
         const res = await this.userService.create({
           name: this.form.name,
           email: this.form.email,
@@ -49,13 +50,30 @@ export default {
         });
         const user = res.data;
 
+        // Validación y creación del Student
         if (this.role === 'student') {
+          if (
+              !this.form.birthdate ||
+              !this.form.city ||
+              !this.form.country ||
+              !this.form.field ||
+              !this.form.phoneNumber
+          ) {
+            this.toast.add({
+              severity: 'warn',
+              summary: 'Campos incompletos',
+              detail: 'Completa todos los campos requeridos para el estudiante.',
+              life: 3000
+            });
+            return;
+          }
+
           await this.studentService.create({
             userId: user.id,
             birthdate: this.form.birthdate,
             city: this.form.city,
             country: this.form.country,
-            field: this.form.field, // ahora texto
+            field: this.form.field,
             phoneNumber: this.form.phoneNumber,
             portfolioLink: this.form.portfolioLink,
             rating: 5,
@@ -64,7 +82,24 @@ export default {
             aboutMe: '',
             endedProjects: []
           });
+
+          // Validación y creación de la Company
         } else if (this.role === 'company') {
+          if (
+              !this.form.companyName ||
+              !this.form.sector ||
+              !this.form.location ||
+              !this.form.phone
+          ) {
+            this.toast.add({
+              severity: 'warn',
+              summary: 'Campos incompletos',
+              detail: 'Completa todos los campos requeridos para la empresa.',
+              life: 3000
+            });
+            return;
+          }
+
           await this.companyService.create({
             userId: user.id,
             companyName: this.form.companyName,
@@ -79,6 +114,7 @@ export default {
           });
         }
 
+        // Éxito
         this.toast.add({
           severity: 'success',
           summary: 'Registro exitoso',
@@ -99,6 +135,9 @@ export default {
         });
       }
     }
+
+
+
   }
 };
 </script>

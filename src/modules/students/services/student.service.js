@@ -60,13 +60,15 @@ export class StudentService {
      * @param {number|string} userId
      * @returns {Promise<Student>}
      */
+    /**
+     * Retrieves a student by user ID
+     * @param {number|string} userId
+     * @returns {Promise<Student>}
+     */
     getByUserId(userId) {
         return httpInstance
-            .get(`${this.resourceEndpoint}?userId=${userId}`)
-            .then(res => {
-                if (res.data.length === 0) throw new Error("No student found with that userId");
-                return new Student(res.data[0]); // Usamos el primero del array
-            });
+            .get(`${this.resourceEndpoint}/user/${userId}`)
+            .then(res => new Student(res.data));
     }
 
 }
