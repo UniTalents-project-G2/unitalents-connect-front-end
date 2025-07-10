@@ -19,14 +19,15 @@ export default {
     const availableProjects = await projectService.getAvailable();
     const companies = await companyService.getAll();
 
-    // Mapeamos el nombre de empresa directamente a cada proyecto
-    this.projects = availableProjects.map(project => {
-      const company = companies.find(c => c.id === project.companyId);
-      return {
-        ...project,
-        companyName: company ? company.name : 'Empresa desconocida'
-      };
-    });
+    this.projects = availableProjects
+        .filter(project => project.status === 'Pendiente') // Filtrar solo los pendientes
+        .map(project => {
+          const company = companies.find(c => c.id === project.companyId);
+          return {
+            ...project,
+            companyName: company ? company.name : 'Empresa desconocida'
+          };
+        });
   },
   methods: {
     handleApply(projectId) {
@@ -36,6 +37,7 @@ export default {
   }
 }
 </script>
+
 
 <template>
   <div class="opportunities-container">

@@ -203,8 +203,6 @@ export default {
 };
 </script>
 
-
-
 <template>
   <div class="project-detail">
     <router-link to="/manager/projects" class="back-link">← Volver a Proyectos</router-link>
@@ -299,23 +297,74 @@ export default {
   </div>
 </template>
 
-
-
-
 <style scoped>
 .project-detail {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .back-link {
-  align-self: flex-start;
   margin-bottom: 2rem;
   color: #1c1f2b;
   font-weight: bold;
   text-decoration: none;
+}
+
+.project-info h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-info {
+  width: 100%;
+}
+
+.project-info p {
+  margin-bottom: 1.5rem;
+}
+
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.button {
+  font-family: inherit;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button.yellow {
+  background-color: #FFD479;
+  color: #1c1f2b;
+}
+
+.button.gray {
+  background-color: #e5e7eb;
+  color: #1c1f2b;
+}
+
+ul {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0 1rem 0;
 }
 
 .edit-form {
@@ -412,42 +461,23 @@ export default {
   cursor: pointer;
 }
 
-.project-info .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
+@media (max-width: 768px) {
+  .project-detail {
+    padding: 1rem;
+  }
 
-.header-actions {
-  display: flex;
-  gap: 0.5rem;
-}
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 
-.button {
-  font-family: inherit;
-  padding: 0.4rem 1rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
+  .form-actions {
+    flex-direction: column;
+  }
 
-.button.yellow {
-  background-color: #FFD479;
-  color: #1c1f2b;
-}
-
-.button.gray {
-  background-color: #e5e7eb;
-  color: #1c1f2b;
-}
-
-
-@media (max-width: 640px) {
-  .edit-form {
-    padding: 1.5rem;
+  .save-btn,
+  .cancel-btn {
+    width: 100%;
   }
 }
 
