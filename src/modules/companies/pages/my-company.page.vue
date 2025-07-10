@@ -42,7 +42,6 @@ export default {
 }
 </script>
 
-
 <template>
   <div class="layout">
     <div class="content" v-if="isLoaded">
@@ -82,11 +81,13 @@ export default {
 .layout {
   display: flex;
 }
+
 .content {
   padding: 2rem;
   width: 100%;
   background-color: #f4eddf;
 }
+
 .company-card {
   display: flex;
   background: white;
@@ -95,32 +96,45 @@ export default {
   padding: 2rem;
   gap: 2rem;
   align-items: center;
+  flex-wrap: wrap;
 }
+
 .left {
   flex: 0 0 200px;
+  text-align: center;
 }
+
 .logo {
   width: 200px;
   height: 200px;
   border-radius: 10px;
+  object-fit: cover;
 }
+
 .right {
   flex: 1;
 }
+
 .rating {
   margin: 1rem 0;
   font-size: 1.5rem;
 }
+
 .tags {
   margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
+
 .tag {
   background-color: #cfd8dc;
   padding: 0.4rem 1rem;
-  margin: 0.3rem;
   border-radius: 20px;
   display: inline-block;
+  font-size: 0.9rem;
 }
+
 .edit-btn {
   background-color: #fdd567;
   border: none;
@@ -130,4 +144,26 @@ export default {
   cursor: pointer;
   margin-top: 1rem;
 }
+
+@media (max-width: 768px) {
+  .company-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .left, .right {
+    flex: 1 1 100%;
+  }
+
+  .logo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .edit-btn {
+    width: 100%;
+  }
+}
+
 </style>
