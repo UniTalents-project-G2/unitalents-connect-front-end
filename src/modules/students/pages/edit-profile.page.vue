@@ -78,8 +78,18 @@ export default {
           email: this.user.email
         }
 
+        const studentUpdateRequest = {
+          city: this.student.city,
+          country: this.student.country,
+          phoneNumber: this.student.phoneNumber,
+          portfolioLink: this.student.portfolioLink,
+          aboutMe: this.student.aboutMe,
+          logo: this.student.logo,
+          specializations: this.student.specializations
+        }
+
         await userService.update(this.user.id, updatedUser)
-        await studentService.update(this.student.id, this.student)
+        await studentService.update(this.student.id, studentUpdateRequest)
 
         alert('Cambios guardados exitosamente.')
         this.$router.push({ name: 'StudentProfile' })

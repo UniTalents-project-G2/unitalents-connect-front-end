@@ -110,7 +110,7 @@ export default {
             rating: 5,
             specializations: [],
             logo: '',
-            description: null
+            description: ''
           });
         }
 
