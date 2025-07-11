@@ -11,7 +11,7 @@ export default {
 <template>
   <div class="card">
     <div class="left">
-      <img class="avatar" :src="student.image || 'https://i.pravatar.cc/100?img=3'" alt="Foto del estudiante" />
+      <img class="avatar" :src="student.logo || 'https://i.pravatar.cc/100?img=3'" alt="Foto del estudiante" />
     </div>
     <div class="center">
       <h3>{{ student.name }}</h3>
@@ -36,6 +36,7 @@ export default {
 <style scoped>
 .card {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   background: white;
@@ -43,25 +44,27 @@ export default {
   border-radius: 10px;
   padding: 1rem;
   margin: 1rem 0;
-}
-
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  gap: 1rem;
 }
 
 .left {
-  flex: 0 0 90px;
+  flex: 0 0 auto;
+}
+
+.left img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 .center {
-  flex: 1;
+  flex: 1 1 200px;
   padding: 0 1rem;
 }
 
 .center h3 {
   margin: 0;
+  font-size: 1.1rem;
 }
 
 .field {
@@ -83,19 +86,20 @@ export default {
 
 .tags {
   margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .tag {
   background-color: #e6eef6;
   border-radius: 12px;
   padding: 0.2rem 0.6rem;
-  margin-right: 5px;
   font-size: 0.8rem;
-  display: inline-block;
 }
 
 .right {
-  flex: 0 0 150px;
+  flex: 0 0 auto;
   text-align: right;
 }
 
@@ -109,5 +113,30 @@ export default {
   color: black;
   display: inline-block;
   text-align: center;
+  font-weight: 500;
+  white-space: nowrap;
 }
+
+@media (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .center {
+    padding: 0;
+  }
+
+  .right {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .tags {
+    justify-content: center;
+  }
+}
+
 </style>

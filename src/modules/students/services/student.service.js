@@ -55,4 +55,20 @@ export class StudentService {
     delete(id) {
         return httpInstance.delete(`${this.resourceEndpoint}/${id}`);
     }
+    /**
+     * Retrieves a student by user ID
+     * @param {number|string} userId
+     * @returns {Promise<Student>}
+     */
+    /**
+     * Retrieves a student by user ID
+     * @param {number|string} userId
+     * @returns {Promise<Student>}
+     */
+    getByUserId(userId) {
+        return httpInstance
+            .get(`${this.resourceEndpoint}/user/${userId}`)
+            .then(res => new Student(res.data));
+    }
+
 }

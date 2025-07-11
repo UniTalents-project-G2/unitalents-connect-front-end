@@ -1,3 +1,4 @@
+// student.entity.js
 export class Student {
     constructor({
                     id = null,
@@ -11,7 +12,8 @@ export class Student {
                     aboutMe = '',
                     rating = 0,
                     specializations = [],
-                    logo = ''
+                    logo = '',
+                    endedProjects = [] // ✅ nuevo campo agregado
                 } = {}) {
         this.id = id;
         this.userId = userId;
@@ -25,5 +27,6 @@ export class Student {
         this.rating = rating;
         this.specializations = specializations;
         this.logo = logo;
+        this.endedProjects = endedProjects;
     }
 }

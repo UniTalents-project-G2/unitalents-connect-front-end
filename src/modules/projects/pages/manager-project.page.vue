@@ -1,6 +1,7 @@
 <script>
 import ProjectCard from '@/modules/projects/components/project-card.component.vue'
 import { projectService } from '@/modules/projects/services/project.service'
+import { CompanyService } from '@/modules/companies/services/company.service'
 
 export default {
   name: 'ManagerProjectsPage',
@@ -11,17 +12,25 @@ export default {
     return {
       projects: [],
       loading: true,
-      error: null,
-      currentCompanyId: 1
+      error: null
     }
   },
   async created() {
     try {
-      this.projects = await projectService.getByCompanyId(this.currentCompanyId)
-      console.log('Proyectos cargados:', this.projects)
+      const userId = parseInt(localStorage.getItem('userId'))
+      const companyService = new CompanyService()
+      const companies = await companyService.getByUserId(userId)
+
+      if (!companies.length) {
+        this.error = 'No se encontró la compañía asociada al usuario.'
+        return
+      }
+
+      const companyId = companies[0].id
+      this.projects = await projectService.getByCompanyId(companyId)
 
       if (this.projects.length === 0) {
-        console.warn('No se encontraron proyectos para companyId:', this.currentCompanyId)
+        console.warn('No se encontraron proyectos para la compañía con ID:', companyId)
       }
     } catch (error) {
       this.error = 'Error al cargar los proyectos'
@@ -33,10 +42,12 @@ export default {
 }
 </script>
 
+
+
 <template>
   <div class="projects-page">
     <div class="header">
-      <h1>Proyectos de la Compañía (ID: {{ currentCompanyId }})</h1>
+      <h1>Proyectos de la Compañía</h1>
       <router-link to="/manager/projects/new">
         <button class="new-project-btn">Nuevo Proyecto</button>
       </router-link>
@@ -52,9 +63,7 @@ export default {
 
     <div v-else-if="projects.length === 0" class="empty-state">
       <p>No hay proyectos registrados para esta compañía</p>
-      <router-link to="/manager/projects/new">
-        <button class="create-btn">Crear primer proyecto</button>
-      </router-link>
+
     </div>
 
     <div v-else class="projects-grid">
@@ -70,7 +79,7 @@ export default {
 <style scoped>
 .projects-page {
   padding: 2rem;
-  font-family: 'Nunito', sans-serif;
+
 }
 
 .header {
@@ -82,7 +91,7 @@ export default {
 
 h1 {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+
   font-size: 1.8rem;
 }
 
@@ -95,7 +104,7 @@ h1 {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
-  font-family: 'Inter', sans-serif;
+
 }
 
 .new-project-btn:hover {
@@ -126,7 +135,7 @@ h1 {
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+
 }
 
 @media (max-width: 768px) {
@@ -138,13 +147,18 @@ h1 {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 1.5rem;
   }
 
   h1 {
     font-size: 1.5rem;
   }
 
+  .new-project-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
   .projects-grid {
     grid-template-columns: 1fr;
   }

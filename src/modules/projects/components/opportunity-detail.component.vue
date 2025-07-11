@@ -1,12 +1,14 @@
 <script>
 import { projectService } from '@/modules/projects/services/project.service';
-import { postulationService } from "@/modules/student-postulations/services/postulation.service.js";
+import { postulationService } from '@/modules/student-postulations/services/postulation.service.js';
+import { StudentService } from '@/modules/students/services/student.service.js';
 
 export default {
   name: 'StudentProjectDetailPage',
   data() {
     return {
-      studentId: parseInt(localStorage.getItem('userId')),  // 🔥 Tomamos el ID directamente del localStorage
+      userId: parseInt(localStorage.getItem('userId')),
+      studentId: null,
       project: null,
       loading: false,
       error: null,
@@ -15,16 +17,27 @@ export default {
     };
   },
   methods: {
+    async loadStudentId() {
+      const studentService = new StudentService();
+      const allStudents = await studentService.getAll();
+      const matchedStudent = allStudents.find(s => s.userId === this.userId);
+      if (matchedStudent) {
+        this.studentId = matchedStudent.id;
+      } else {
+        throw new Error('No se encontró el estudiante con userId: ' + this.userId);
+      }
+    },
+
     async loadProject(id) {
       this.loading = true;
       try {
+        await this.loadStudentId();
+
         const response = await projectService.getById(id);
         this.project = response.data || response;
 
-        // 🚩 Controlamos visibilidad del botón según el array postulants
         const currentPostulants = (this.project.postulants || []).filter(p => p != null);
         this.hasApplied = currentPostulants.includes(this.studentId);
-
       } catch (error) {
         console.error('Error loading project:', error);
         this.error = 'No se pudo cargar el proyecto';
@@ -35,7 +48,6 @@ export default {
 
     async applyToProject() {
       try {
-        // 1️⃣ Crear la postulación
         const postulationData = {
           studentId: this.studentId,
           projectId: this.project.id,
@@ -45,17 +57,14 @@ export default {
 
         await postulationService.create(postulationData);
 
-        // 2️⃣ Actualizar el arreglo postulants del proyecto
         const currentPostulants = (this.project.postulants || []).filter(p => p != null);
         if (!currentPostulants.includes(this.studentId)) {
           const updatedProject = {
             ...this.project,
             postulants: [...currentPostulants, this.studentId]
-          };
-          await projectService.update(this.project.id, updatedProject);
+          }
         }
 
-        // 3️⃣ Actualizamos el estado local
         this.hasApplied = true;
         this.applicationStatus = 'enviado';
         alert('¡Postulación enviada con éxito!');
@@ -95,15 +104,16 @@ export default {
   watch: {
     '$route.params.id': {
       immediate: true,
-      handler(newId) {
+      async handler(newId) {
         if (newId) {
-          this.loadProject(newId);
+          await this.loadProject(newId);
         }
       }
     }
   }
 };
 </script>
+
 
 <template>
   <div class="project-detail">
@@ -156,7 +166,7 @@ export default {
       </div>
 
       <div class="actions">
-        <button v-if="!hasApplied && project.status === 'Pendiente'" @click="applyToProject" class="apply-btn">
+        <button v-if="!hasApplied && project.status === 'Open'" @click="applyToProject" class="apply-btn">
           Postularme
         </button>
 
@@ -310,5 +320,44 @@ export default {
 .status-rejected {
   background-color: #F44336;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .project-detail {
+    padding: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .apply-btn, .view-company-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .meta p {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .skills-list {
+    flex-direction: column;
+  }
+
+  .skill-tag {
+    width: fit-content;
+  }
 }
 </style>

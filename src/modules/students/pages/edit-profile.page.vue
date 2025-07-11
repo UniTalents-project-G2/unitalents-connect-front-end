@@ -78,8 +78,18 @@ export default {
           email: this.user.email
         }
 
+        const studentUpdateRequest = {
+          city: this.student.city,
+          country: this.student.country,
+          phoneNumber: this.student.phoneNumber,
+          portfolioLink: this.student.portfolioLink,
+          aboutMe: this.student.aboutMe,
+          logo: this.student.logo,
+          specializations: this.student.specializations
+        }
+
         await userService.update(this.user.id, updatedUser)
-        await studentService.update(this.student.id, this.student)
+        await studentService.update(this.student.id, studentUpdateRequest)
 
         alert('Cambios guardados exitosamente.')
         this.$router.push({ name: 'StudentProfile' })
@@ -163,55 +173,68 @@ export default {
   padding: 2rem;
   font-family: 'Nunito', sans-serif;
 }
+
 .edit-form {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   margin-bottom: 1.5rem;
 }
+
 .image-column {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1 1 300px;
 }
+
 .logo {
-  width: 350px;
-  height: 350px;
-  object-fit: contain;
-  border-radius: 100%;
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
   background: #eee;
   margin-bottom: 0.5rem;
 }
+
 .fields {
-  flex: 1;
+  flex: 2 1 400px;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
 }
+
 .fields label {
   font-weight: bold;
   margin-top: 0.5rem;
 }
+
 .fields input,
 .fields textarea {
   padding: 0.5rem;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 0.95rem;
+  width: 100%;
 }
+
 .subtitle {
   font-weight: 600;
   margin: 1rem 0 0.5rem;
 }
+
 input[type="file"] {
   margin-top: 0.5rem;
   font-size: 0.9rem;
 }
+
 .tags {
   display: flex;
   gap: 0.6rem;
   flex-wrap: wrap;
   margin-bottom: 2rem;
 }
+
 .tag {
   background: #c9d8f0;
   color: #1c1f2b;
@@ -219,11 +242,14 @@ input[type="file"] {
   border-radius: 20px;
   padding: 0.4rem 0.8rem;
 }
+
 .actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 1rem;
 }
+
 button {
   font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
@@ -233,18 +259,48 @@ button {
   cursor: pointer;
   font-weight: 600;
 }
+
 .cancel {
   background: #1c1f2b;
   color: white;
 }
+
 .save {
   background: #FFD479;
   color: #1c1f2b;
 }
+
 .change-btn {
   margin-left: 1rem;
   background: #FFD479;
   font-size: 0.75rem;
   padding: 0.4rem 0.6rem;
 }
+
+/* ✅ Responsive Fix */
+@media (max-width: 768px) {
+  .edit-form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fields {
+    width: 100%;
+  }
+
+  .image-column {
+    width: 100%;
+    align-items: center;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+
+  .logo {
+    width: 200px;
+    height: 200px;
+  }
+}
+
 </style>

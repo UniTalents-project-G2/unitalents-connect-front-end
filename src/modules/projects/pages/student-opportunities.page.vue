@@ -19,14 +19,15 @@ export default {
     const availableProjects = await projectService.getAvailable();
     const companies = await companyService.getAll();
 
-    // Mapeamos el nombre de empresa directamente a cada proyecto
-    this.projects = availableProjects.map(project => {
-      const company = companies.find(c => c.id === project.companyId);
-      return {
-        ...project,
-        companyName: company ? company.name : 'Empresa desconocida'
-      };
-    });
+    this.projects = availableProjects
+        .filter(project => project.status === 'Open') // Filtrar solo los pendientes
+        .map(project => {
+          const company = companies.find(c => c.id === project.companyId);
+          return {
+            ...project,
+            companyName: company ? company.name : 'Empresa desconocida'
+          };
+        });
   },
   methods: {
     handleApply(projectId) {
@@ -36,6 +37,7 @@ export default {
   }
 }
 </script>
+
 
 <template>
   <div class="opportunities-container">
@@ -53,13 +55,28 @@ export default {
 
 <style scoped>
 .opportunities-container {
-  padding: 30px;
+  padding: 20px;
 }
 
 .cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .opportunities-container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

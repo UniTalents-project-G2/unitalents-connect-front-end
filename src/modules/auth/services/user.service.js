@@ -1,4 +1,6 @@
 import httpInstance from "@/shared/services/http.instance.js";
+console.log("[Service 1] user.service.js cargado");
+
 
 /**
  * @class UserService
@@ -9,7 +11,7 @@ export class UserService {
     resourceEndpoint = import.meta.env.VITE_USERS_ENDPOINT_PATH;
 
     /**
-     * Retrieves all users
+     * Retrieves all usersl
      * @returns {Promise<AxiosResponse<any>>} Promise that resolves to an array of users
      */
     getAll() {
@@ -31,7 +33,7 @@ export class UserService {
      * @returns {Promise<AxiosResponse<any>>} Promise that resolves to the created user
      */
     create(resource) {
-        return httpInstance.post(this.resourceEndpoint, resource);
+        return httpInstance.post('/Users/register', resource);
     }
 
     /**
@@ -52,6 +54,16 @@ export class UserService {
     delete(id) {
         return httpInstance.delete(`${this.resourceEndpoint}/${id}`);
     }
+
+    /**
+     * Login de usuario
+     * @param {{ email: string, password: string }} credentials
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    login(credentials) {
+        return httpInstance.post('/Users/login', credentials);
+    }
+
 
     /**
      * Retrieves users by email

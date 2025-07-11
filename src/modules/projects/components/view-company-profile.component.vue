@@ -36,12 +36,10 @@ export default {
 
 <template>
   <div class="layout">
-    <router-link
-        :to="{ name: 'StudentProjectDetail', params: { id: $route.params.id } }"
-        class="back-link"
-    >
+
+    <a @click.prevent="$router.back()" class="back-link">
       ← Volver al proyecto
-    </router-link>
+    </a>
 
     <div v-if="error" class="error">
       {{ error }}
@@ -152,5 +150,38 @@ export default {
 
 .error {
   color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .company-card {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .left {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout {
+    padding: 15px;
+  }
+
+  .tags {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tag {
+    margin-bottom: 5px;
+  }
 }
 </style>

@@ -1,6 +1,8 @@
 import http from '@/shared/services/http.instance';
 import { User } from '../entities/user.entity';
 
+console.log("[Service 2] user.service.js cargado");
+
 export class UserService {
     async getAll() {
         const response = await http.get('/users');

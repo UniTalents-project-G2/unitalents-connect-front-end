@@ -22,26 +22,52 @@ export class ProjectService {
 
     async create(projectData) {
         const dataToSend = {
-            ...projectData,
-            isFinished: projectData.status === 'Finalizado',
-            studentSelected: projectData.status === 'En curso' ? null : projectData.studentSelected
-        }
-        const response = await http.post('/projects', dataToSend)
-        return new Project(response.data)
+            title: projectData.title,
+            description: projectData.description,
+            field: projectData.field,
+            skills: Array.from(projectData.skills),
+            budget: projectData.budget,
+            status: projectData.status
+        };
+
+        const token = localStorage.getItem('token');
+
+        const response = await http.post('/projects', dataToSend, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return new Project(response.data);
     }
 
     async update(id, projectData) {
         const dataToSend = {
-            ...projectData,
-            isFinished: projectData.status === 'Finalizado',
-            studentSelected: projectData.status === 'En curso' ? null : projectData.studentSelected
-        }
-        const response = await http.put(`/projects/${id}`, dataToSend)
-        return new Project(response.data)
+            title: projectData.title,
+            description: projectData.description,
+            field: projectData.field,
+            skills: Array.from(projectData.skills),
+            budget: projectData.budget,
+            status: projectData.status,
+            isFinished: projectData.status === 'Finished'
+        };
+
+        const token = localStorage.getItem('token');
+
+        const response = await http.put(`/projects/${id}`, dataToSend, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return new Project(response.data);
     }
 
     async delete(id) {
-        await http.delete(`/projects/${id}`);
+        const token = localStorage.getItem('token');
+        await http.delete(`/projects/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return true;
     }
 
@@ -49,6 +75,6 @@ export class ProjectService {
         const response = await http.get(`/projects?selectedStudent=null`);
         return response.data.map(project => new Project(project));
     }
-
 }
+
 export const projectService = new ProjectService();
