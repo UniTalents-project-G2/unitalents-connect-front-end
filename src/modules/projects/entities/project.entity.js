@@ -12,14 +12,9 @@ export class Project {
         this.budget = budget;
         this.createdAt = createdAt;
         this.skills = skills;
-        this.status = status || this.calculateStatus();
+        this.status = status;
     }
 
-  calculateStatus() {
-        if (this.isFinished) return 'Finalizado'
-        if (this.studentSelected) return 'En curso'
-        return 'Pendiente'
-    }
 
 }
 
