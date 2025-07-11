@@ -5,10 +5,17 @@ import { CompanyService } from "@/modules/companies/services/company.service";
 
 const companyService = new CompanyService();
 
+const resourceEndpoint = import.meta.env.VITE_STUDENT_POSTULATIONS_ENDPOINT_PATH;
+
 export const postulationService = {
     async create(postulationData) {
         try {
-            const response = await httpInstance.post("/postulations", postulationData);
+            const token = localStorage.getItem('token');
+            const response = await httpInstance.post(resourceEndpoint, postulationData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             return new StudentPostulation(response.data);
         } catch (error) {
             console.error("Error creating postulation:", error);
@@ -16,9 +23,10 @@ export const postulationService = {
         }
     },
 
+
     async getByStudent(studentId) {
         try {
-            const response = await httpInstance.get(`/postulations?studentId=${studentId}`);
+            const response = await httpInstance.get(`${resourceEndpoint}?studentId=${studentId}`);
             return response.data.map(p => new StudentPostulation(p));
         } catch (error) {
             console.error("Error fetching student postulations:", error);
@@ -28,7 +36,7 @@ export const postulationService = {
 
     async getByProject(projectId) {
         try {
-            const response = await httpInstance.get(`/postulations?projectId=${projectId}`);
+            const response = await httpInstance.get(`${resourceEndpoint}?projectId=${projectId}`);
             return response.data.map(p => new StudentPostulation(p));
         } catch (error) {
             console.error("Error fetching project postulations:", error);
@@ -38,7 +46,7 @@ export const postulationService = {
 
     async update(postulationId, data) {
         try {
-            const response = await httpInstance.put(`/postulations/${postulationId}`, data);
+            const response = await httpInstance.put(`${resourceEndpoint}/${postulationId}`, data);
             return new StudentPostulation(response.data);
         } catch (error) {
             console.error("Error updating postulation:", error);

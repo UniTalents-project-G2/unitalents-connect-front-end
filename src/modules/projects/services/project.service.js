@@ -30,12 +30,15 @@ export class ProjectService {
             status: projectData.status
         };
 
-        console.log('[create] Enviando proyecto:', dataToSend);
+        const token = localStorage.getItem('token');
 
-        const response = await http.post('/projects', dataToSend);
+        const response = await http.post('/projects', dataToSend, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return new Project(response.data);
     }
-
 
     async update(id, projectData) {
         const dataToSend = {
@@ -44,17 +47,27 @@ export class ProjectService {
             field: projectData.field,
             skills: Array.from(projectData.skills),
             budget: projectData.budget,
-            status: projectData.status, // ya es Open, InProgress, etc.
+            status: projectData.status,
             isFinished: projectData.status === 'Finished'
         };
 
-        console.log('[update] Enviando proyecto:', dataToSend);
-        const response = await http.put(`/projects/${id}`, dataToSend);
+        const token = localStorage.getItem('token');
+
+        const response = await http.put(`/projects/${id}`, dataToSend, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return new Project(response.data);
     }
 
     async delete(id) {
-        await http.delete(`/projects/${id}`);
+        const token = localStorage.getItem('token');
+        await http.delete(`/projects/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return true;
     }
 

@@ -117,13 +117,18 @@ export default {
           const userId = parseInt(localStorage.getItem('userId'));
           const companyService = new CompanyService();
           const companies = await companyService.getByUserId(userId);
-          const myCompany = companies[0];
 
-          if (!myCompany?.id) {
-            throw new Error("No se encontró la compañía del usuario");
+          if (!companies.length) {
+            throw new Error("No se encontró la compañía asociada al usuario");
           }
 
-          projectData.companyId = myCompany.id;
+          const myCompany = companies.find(c => c.userId === userId); // 🟢 asegúrate que este es tuyo
+
+          if (!myCompany?.id) {
+            throw new Error("La compañía encontrada no tiene un ID válido");
+          }
+
+          projectData.companyId = myCompany.id; // ✅ este es el ID correcto
           projectData.createdAt = new Date().toISOString().split('T')[0];
 
           const newProject = await projectService.create(projectData);
@@ -138,6 +143,7 @@ export default {
         this.loading = false;
       }
     },
+
     async deleteProject() {
       if (confirm('¿Eliminar este proyecto?')) {
         try {
