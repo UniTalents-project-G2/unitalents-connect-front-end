@@ -36,12 +36,10 @@ export default {
 
 <template>
   <div class="layout">
-    <router-link
-        :to="{ name: 'StudentProjectDetail', params: { id: $route.params.id } }"
-        class="back-link"
-    >
+
+    <a @click.prevent="$router.back()" class="back-link">
       ← Volver al proyecto
-    </router-link>
+    </a>
 
     <div v-if="error" class="error">
       {{ error }}

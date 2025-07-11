@@ -13,7 +13,7 @@ export class CompanyService {
     }
 
     async getByUserId(userId) {
-        const res = await http.get(`/companies?userId=${userId}`);
+        const res = await http.get(`/companies/by-user/${userId}`);
         return res.data.map(company => new Company(company));
     }
 

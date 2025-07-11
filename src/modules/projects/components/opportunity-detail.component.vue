@@ -167,7 +167,7 @@ export default {
       </div>
 
       <div class="actions">
-        <button v-if="!hasApplied && project.status === 'Pendiente'" @click="applyToProject" class="apply-btn">
+        <button v-if="!hasApplied && project.status === 'Open'" @click="applyToProject" class="apply-btn">
           Postularme
         </button>
 

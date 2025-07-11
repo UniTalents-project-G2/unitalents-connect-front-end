@@ -20,7 +20,7 @@ export default {
     const companies = await companyService.getAll();
 
     this.projects = availableProjects
-        .filter(project => project.status === 'Pendiente') // Filtrar solo los pendientes
+        .filter(project => project.status === 'Open') // Filtrar solo los pendientes
         .map(project => {
           const company = companies.find(c => c.id === project.companyId);
           return {

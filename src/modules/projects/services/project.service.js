@@ -22,24 +22,36 @@ export class ProjectService {
 
     async create(projectData) {
         const dataToSend = {
-            ...projectData,
-            isFinished: projectData.status === 'Finalizado',
-            studentSelected: projectData.status === 'En curso' ? null : projectData.studentSelected
-        }
-        const response = await http.post('/projects', dataToSend)
-        return new Project(response.data)
-    }
+            title: projectData.title,
+            description: projectData.description,
+            field: projectData.field,
+            skills: Array.from(projectData.skills),
+            budget: projectData.budget,
+            status: projectData.status
+        };
 
-    async update(id, projectData) {
-        const dataToSend = {
-            ...projectData,
-            isFinished: projectData.status === 'Finalizado'
-            // Ya no forzamos studentSelected a null
-        }
-        const response = await http.put(`/projects/${id}`, dataToSend);
+        console.log('[create] Enviando proyecto:', dataToSend);
+
+        const response = await http.post('/projects', dataToSend);
         return new Project(response.data);
     }
 
+
+    async update(id, projectData) {
+        const dataToSend = {
+            title: projectData.title,
+            description: projectData.description,
+            field: projectData.field,
+            skills: Array.from(projectData.skills),
+            budget: projectData.budget,
+            status: projectData.status, // ya es Open, InProgress, etc.
+            isFinished: projectData.status === 'Finished'
+        };
+
+        console.log('[update] Enviando proyecto:', dataToSend);
+        const response = await http.put(`/projects/${id}`, dataToSend);
+        return new Project(response.data);
+    }
 
     async delete(id) {
         await http.delete(`/projects/${id}`);
@@ -50,6 +62,6 @@ export class ProjectService {
         const response = await http.get(`/projects?selectedStudent=null`);
         return response.data.map(project => new Project(project));
     }
-
 }
+
 export const projectService = new ProjectService();

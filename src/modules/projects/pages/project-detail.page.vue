@@ -22,7 +22,7 @@ export default {
         isFinished: false,
         postulants: [],
         skills: [],
-        status: 'Pendiente',
+        status: 'Pendiente', // ← lo mostramos como label en español
         budget: ''
       },
       newSkill: '',
@@ -36,18 +36,38 @@ export default {
       error: null,
       statusOptions: [
         { value: 'Pendiente', label: 'Pendiente' },
-        { value: 'En curso', label: 'En Curso' },
-        { value: 'Finalizado', label: 'Finalizado' }
-      ]
+        { value: 'En curso', label: 'En curso' },
+        { value: 'Finalizado', label: 'Finalizado' },
+        { value: 'Cancelado', label: 'Cancelado' }
+      ],
+      statusMap: {
+        'Pendiente': 'Open',
+        'En curso': 'InProgress',
+        'Finalizado': 'Finished',
+        'Cancelado': 'Cancelled'
+      },
+      statusReverseMap: {
+        'Open': 'Pendiente',
+        'InProgress': 'En curso',
+        'Finished': 'Finalizado',
+        'Cancelled': 'Cancelado'
+      }
     };
   },
   methods: {
+    getStatusLabel(status) {
+      return this.statusReverseMap[status] || status;
+    },
     async loadProject(id) {
       this.loading = true;
       try {
         const response = await projectService.getById(id);
         this.project = response.data || response;
         this.editData = { ...this.project };
+
+        // 🟡 Transformamos status del backend → label en español
+        this.editData.status = this.statusReverseMap[this.project.status] || 'Pendiente';
+
         if (!Array.isArray(this.editData.skills)) {
           this.editData.skills = [];
         }
@@ -86,6 +106,9 @@ export default {
       this.loading = true;
       try {
         const projectData = { ...this.editData };
+
+        // ✅ Convertimos status a backend enum
+        projectData.status = this.statusMap[projectData.status] || 'Open';
 
         if (this.project) {
           await projectService.update(this.project.id, projectData);
@@ -128,9 +151,12 @@ export default {
     },
     startEditing() {
       this.editData = { ...this.project };
+      this.editData.status = this.statusReverseMap[this.project.status] || 'Pendiente';
+
       if (!Array.isArray(this.editData.skills)) {
         this.editData.skills = [];
       }
+
       this.isEditing = true;
     },
     cancelEditing() {
@@ -154,7 +180,7 @@ export default {
           studentReps.reduce((acc, r) => acc + r.rating, 0) / studentReps.length
       ).toFixed(1);
 
-      this.project.status = 'Finalizado';
+      this.project.status = 'Finished';
       this.project.isFinished = true;
       this.project.studentSelected = data.studentId;
       await projectService.update(this.project.id, this.project);
@@ -193,7 +219,7 @@ export default {
             isFinished: false,
             postulants: [],
             skills: [],
-            status: 'Pendiente',
+            status: 'Pendiente', // en español para el formulario
             budget: ''
           };
         }
@@ -202,6 +228,7 @@ export default {
   }
 };
 </script>
+
 
 <template>
   <div class="project-detail">
@@ -220,7 +247,7 @@ export default {
         </div>
       </div>
 
-      <p><strong>Estado:</strong> {{ project.status }}</p>
+      <p><strong>Estado:</strong> {{ getStatusLabel(project.status) }}</p>
       <p><strong>Área:</strong> {{ project.field }}</p>
       <p><strong>Pago:</strong> {{ project.budget }}</p>
 
@@ -254,7 +281,9 @@ export default {
       <div class="form-field">
         <label>Estado del Proyecto</label>
         <select v-model="editData.status">
-          <option v-for="opt in statusOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+          <option v-for="opt in statusOptions" :key="opt.value" :value="opt.value">
+            {{ opt.label }}
+          </option>
         </select>
       </div>
 
