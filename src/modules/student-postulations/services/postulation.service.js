@@ -3,69 +3,72 @@ import httpInstance from "@/shared/services/http.instance";
 import { StudentPostulation } from "@/modules/student-postulations/model/student-postulation.entity.js";
 import { CompanyService } from "@/modules/companies/services/company.service";
 
-const companyService = new CompanyService();
-
+const companyService   = new CompanyService();
 const resourceEndpoint = import.meta.env.VITE_STUDENT_POSTULATIONS_ENDPOINT_PATH;
 
 export const postulationService = {
+    // ---------- crear ----------
     async create(postulationData) {
         try {
-            const token = localStorage.getItem('token');
-            const response = await httpInstance.post(resourceEndpoint, postulationData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const token = localStorage.getItem("token");
+            const res   = await httpInstance.post(resourceEndpoint, postulationData, {
+                headers: { Authorization: `Bearer ${token}` }
             });
-            return new StudentPostulation(response.data);
-        } catch (error) {
-            console.error("Error creating postulation:", error);
-            throw error;
+            return new StudentPostulation(res.data);
+        } catch (err) {
+            console.error("Error creating postulation:", err);
+            throw err;
         }
     },
 
-
+    // ---------- consultas ----------
     async getByStudent(studentId) {
-        try {
-            const response = await httpInstance.get(`${resourceEndpoint}?studentId=${studentId}`);
-            return response.data.map(p => new StudentPostulation(p));
-        } catch (error) {
-            console.error("Error fetching student postulations:", error);
-            throw error;
-        }
+        const res = await httpInstance.get(`${resourceEndpoint}?studentId=${studentId}`);
+        return res.data.map(p => new StudentPostulation(p));
     },
 
     async getByProject(projectId) {
+        const res = await httpInstance.get(`${resourceEndpoint}?projectId=${projectId}`);
+        return res.data.map(p => new StudentPostulation(p));
+    },
+
+    // ---------- ACTUALIZAR (aceptar / rechazar) ----------
+    /**
+     * Llama a PUT /studentpostulations/{id}/accept en el backend.
+     * El backend se encarga de:
+     *   • marcar esta postulación como aceptada,
+     *   • rechazar las demás,
+     *   • actualizar el proyecto.
+     */
+    async update(postulationId, body = {}) {
         try {
-            const response = await httpInstance.get(`${resourceEndpoint}?projectId=${projectId}`);
-            return response.data.map(p => new StudentPostulation(p));
-        } catch (error) {
-            console.error("Error fetching project postulations:", error);
-            throw error;
+            const token = localStorage.getItem("token");
+            const res   = await httpInstance.put(
+                `${resourceEndpoint}/${postulationId}/accept`,   // ← /accept
+                body,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            return new StudentPostulation(res.data);
+        } catch (err) {
+            console.error("Error updating postulation:", err);
+            throw err;
         }
     },
 
-    async update(postulationId, data) {
-        try {
-            const response = await httpInstance.put(`${resourceEndpoint}/${postulationId}`, data);
-            return new StudentPostulation(response.data);
-        } catch (error) {
-            console.error("Error updating postulation:", error);
-            throw error;
-        }
+    // (opcional) helper explícito
+    async accept(postulationId) {
+        return this.update(postulationId);
     },
 
+    // ---------- utilidades ----------
     async getCompaniesForProjects(projectIds) {
         try {
-            const projects = await Promise.all(
-                projectIds.map(id => httpInstance.get(`/projects/${id}`))
-            );
+            const projects   = await Promise.all(projectIds.map(id => httpInstance.get(`/projects/${id}`)));
             const companyIds = [...new Set(projects.map(p => p.data.companyId))];
-            return await Promise.all(
-                companyIds.map(id => companyService.getById(id))
-            );
-        } catch (error) {
-            console.error("Error fetching companies:", error);
-            throw error;
+            return await Promise.all(companyIds.map(id => companyService.getById(id)));
+        } catch (err) {
+            console.error("Error fetching companies:", err);
+            throw err;
         }
     }
 };

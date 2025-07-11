@@ -2,89 +2,74 @@
 import Sidebar from '@/shared/components/manager-sidebar.components.vue';
 import ReputationCard from '@/modules/students/components/reputation-card.components.vue';
 
-import { ProjectService } from '@/modules/projects/services/project.service.js';
-import { ReputationService } from '@/modules/students/services/reputation.service.js';
-import { StudentService } from '@/modules/students/services/student.service.js';
-import { UserService } from '@/modules/users/services/user.service.js';
-import { postulationService } from '@/modules/student-postulations/services/postulation.service.js';
+import { ReputationService }   from '@/modules/students/services/reputation.service.js';
+import { StudentService }      from '@/modules/students/services/student.service.js';
+import { UserService }         from '@/modules/users/services/user.service.js';
+import { postulationService }  from '@/modules/student-postulations/services/postulation.service.js';
 
 export default {
   name: 'ReputationViewPage',
-  components: {
-    Sidebar,
-    ReputationCard
-  },
+  components: { Sidebar, ReputationCard },
+
   data() {
     return {
       student: null,
       user: null,
       reputations: [],
-      projectId: null,
-      projectService: new ProjectService()
+      projectId: null              // viene por query ?projectId=
     };
   },
+
   async created() {
     const studentId = parseInt(this.$route.params.studentId);
-    this.projectId = parseInt(this.$route.query.projectId);
+    this.projectId  = parseInt(this.$route.query.projectId);
 
-    const studentService = new StudentService();
-    const userService = new UserService();
-    const reputationService = new ReputationService();
+    const studentSvc    = new StudentService();
+    const userSvc       = new UserService();
+    const reputationSvc = new ReputationService();
 
     try {
-      const [studentData, usersData, reputationsData] = await Promise.all([
-        studentService.getById(studentId),
-        userService.getAll(),
-        reputationService.getByStudentId(studentId)
+      const [studentData, users, reps] = await Promise.all([
+        studentSvc.getById(studentId),
+        userSvc.getAll(),
+        reputationSvc.getByStudentId(studentId)
       ]);
 
-      this.student = studentData;
-      this.user = usersData.find(u => u.id === studentData.userId);
-      this.reputations = reputationsData || [];
-    } catch (error) {
-      console.error('Error cargando reputación:', error);
-      this.student = null;
-      this.user = null;
-      this.reputations = [];
+      this.student     = studentData;
+      this.user        = users.find(u => u.id === studentData.userId);
+      this.reputations = reps ?? [];
+    } catch (err) {
+      console.error('Error cargando reputación:', err);
     }
   },
+
   methods: {
     async aceptarPostulante() {
       if (!this.projectId || !this.student?.id) {
-        alert("Faltan datos para aceptar al postulante.");
+        alert('Faltan datos para aceptar al postulante.');
         return;
       }
 
       try {
-        // 1. Obtener el proyecto original
-        const project = await this.projectService.getById(this.projectId);
-
-        // 2. Actualizar studentSelected y status del proyecto
-        const updatedProject = {
-          ...project,
-          studentSelected: this.student.id,
-          status: 'En curso'
-        };
-
-        await this.projectService.update(this.projectId, updatedProject);
-
-        // 3. Obtener todas las postulaciones a este proyecto
+        // 1. Buscar la postulación del estudiante seleccionado
         const postulaciones = await postulationService.getByProject(this.projectId);
+        const propiaPostul  = postulaciones.find(p => p.studentId === this.student.id);
 
-        // 4. Actualizar el estado de cada postulación
-        for (const post of postulaciones) {
-          const newStatus = post.studentId === this.student.id ? 'aceptado' : 'rechazado';
-          await postulationService.update(post.id, { ...post, status: newStatus });
+        if (!propiaPostul) {
+          alert('No se encontró la postulación del estudiante.');
+          return;
         }
+
+        // 2. Llamar al endpoint /accept (esto actualiza todo en backend)
+        await postulationService.update(propiaPostul.id, {});  // el service agrega /accept
 
         alert('Estudiante aceptado ✅');
         this.$router.push('/manager/calls');
-      } catch (error) {
-        console.error('Error al aceptar postulante:', error);
+      } catch (err) {
+        console.error('Error al aceptar postulante:', err);
         alert('Ocurrió un error al aceptar al postulante ❌');
       }
     }
-
   }
 };
 </script>

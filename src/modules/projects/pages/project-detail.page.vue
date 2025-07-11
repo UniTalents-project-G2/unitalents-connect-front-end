@@ -175,38 +175,24 @@ export default {
     finalizarProyecto() {
       this.mostrarFormularioReputacion = true;
     },
-    async enviarReputacion(data) {
-      const reputationService = new ReputationService();
-      const studentService = new StudentService();
+    async enviarReputacion({ projectId, rating, comment, studentId }) {
+      try {
+        const reputationService = new ReputationService();
 
-      await reputationService.create(data);
+        // 1. Crear reputación  ➜  backend cierra proyecto y actualiza rating
+        await reputationService.create({ projectId, rating, comment });
 
-      const studentReps = await reputationService.getByStudentId(data.studentId);
-      const promedio = (
-          studentReps.reduce((acc, r) => acc + r.rating, 0) / studentReps.length
-      ).toFixed(1);
+        // 2. Ocultar formulario y recargar proyecto
+        this.mostrarFormularioReputacion = false;
+        await this.loadProject(projectId);
 
-      this.project.status = 'Finished';
-      this.project.isFinished = true;
-      this.project.studentSelected = data.studentId;
-      await projectService.update(this.project.id, this.project);
-
-      const student = await studentService.getById(data.studentId);
-      student.rating = parseFloat(promedio);
-
-      if (!Array.isArray(student.endedProjects)) {
-        student.endedProjects = [];
+        alert('Proyecto finalizado y reputación guardada ✅');
+      } catch (err) {
+        console.error('Error al guardar reputación:', err);
+        alert('Ocurrió un error al guardar la reputación ❌');
       }
-
-      if (!student.endedProjects.includes(this.project.id)) {
-        student.endedProjects.push(this.project.id);
-      }
-
-      await studentService.update(data.studentId, student);
-
-      this.mostrarFormularioReputacion = false;
-      await this.loadProject(this.project.id);
     }
+
   },
   watch: {
     '$route.params.id': {
@@ -267,7 +253,7 @@ export default {
       <p><strong>Descripción:</strong> {{ project.description }}</p>
 
       <!-- Mostrar botón y formulario si proyecto está en curso -->
-      <div v-if="project.status === 'En curso' && project.studentSelected">
+      <div v-if="project.status === 'InProgress' && project.studentSelected">
         <button class="button yellow" @click="finalizarProyecto">Finalizar Proyecto</button>
       </div>
 

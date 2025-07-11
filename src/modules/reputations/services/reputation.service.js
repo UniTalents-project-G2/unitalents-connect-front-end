@@ -5,7 +5,7 @@ import { Reputation } from '@/modules/reputations/model/reputation.entity';
 export class ReputationService {
     async create(reputationData) {
         try {
-            const response = await http.post('/reputations', reputationData);
+            const response = await http.post('/Reputations', reputationData);
             return new Reputation(response.data);
         } catch (error) {
             console.error('Error creando reputación:', error);
@@ -15,7 +15,7 @@ export class ReputationService {
 
     async getByStudentId(studentId) {
         try {
-            const response = await http.get(`/reputations?studentId=${studentId}`);
+            const response = await http.get(`/Reputations?studentId=${studentId}`);
             return response.data.map(rep => new Reputation(rep));
         } catch (error) {
             console.error('Error obteniendo reputaciones del estudiante:', error);
@@ -25,7 +25,7 @@ export class ReputationService {
 
     async getByProjectId(projectId) {
         try {
-            const response = await http.get(`/reputations?projectId=${projectId}`);
+            const response = await http.get(`/Reputations?projectId=${projectId}`);
             return response.data.map(rep => new Reputation(rep));
         } catch (error) {
             console.error('Error obteniendo reputaciones del proyecto:', error);
@@ -35,7 +35,7 @@ export class ReputationService {
 
     async getAll() {
         try {
-            const response = await http.get('/reputations');
+            const response = await http.get('/Reputations');
             return response.data.map(rep => new Reputation(rep));
         } catch (error) {
             console.error('Error obteniendo todas las reputaciones:', error);

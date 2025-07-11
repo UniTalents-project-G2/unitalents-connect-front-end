@@ -1,4 +1,4 @@
-<script>
+  <script>
 import CallCard from '../components/call-card.component.vue';
 import { CompanyService } from '@/modules/companies/services/company.service.js';
 import { ProjectService } from '@/modules/projects/services/project.service.js'; // ruta corregida

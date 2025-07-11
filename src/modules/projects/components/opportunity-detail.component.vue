@@ -62,8 +62,7 @@ export default {
           const updatedProject = {
             ...this.project,
             postulants: [...currentPostulants, this.studentId]
-          };
-          await projectService.update(this.project.id, updatedProject);
+          }
         }
 
         this.hasApplied = true;
