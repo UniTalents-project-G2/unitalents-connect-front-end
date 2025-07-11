@@ -99,6 +99,7 @@ export default {
       <template v-if="isLoaded">
         <h1>{{ project.title }}</h1>
 
+        <!-- Filtros -->
         <div class="filters">
           <select v-model="filters.field">
             <option value="">Carrera</option>
@@ -129,6 +130,7 @@ export default {
           <button class="btn">Filtrar</button>
         </div>
 
+        <!-- Tarjetas de estudiantes -->
         <StudentPostulantCard
             v-for="student in filteredStudents"
             :key="student.id"
@@ -145,54 +147,26 @@ export default {
 </template>
 
 <style scoped>
-.layout {
-  display: flex;
+/* Hace que todo el layout ocupe la altura completa y permita scroll global */
+html, body, #app, .layout {
+  height: 100%;
 }
 
+/* Sidebar + contenido */
+.layout {
+  display: flex;
+  min-height: 100%;          /* asegura ocupación vertical */
+}
+
+/* Área desplazable */
 .content {
+  flex: 1 1 auto;            /* ocupa todo lo que deje el sidebar */
+  overflow-y: auto;          /* usa la barra del navegador */
   padding: 2rem;
-  width: 100%;
   background-color: #f4eddf;
 }
 
-.filters {
-  display: flex;
-  gap: 1rem;
-  margin: 1rem 0 2rem;
-}
-
-select {
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.btn {
-  background-color: #fdd567;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-
-.back-link {
-  display: inline-block;
-  margin-bottom: 1rem;
-  color: #1c1f2b;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.back-link:hover {
-  text-decoration: underline;
-}
-
-.error-msg {
-  color: red;
-  font-weight: bold;
-  margin-top: 2rem;
-}
-
+/* -------------------- Filtros -------------------- */
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -215,21 +189,32 @@ select {
   cursor: pointer;
   transition: background-color 0.2s;
 }
+.filters .btn:hover { background-color: #fccc4e; }
 
-.filters .btn:hover {
-  background-color: #fccc4e;
-}
-
+/* Responsive filtros en columnas */
 @media (max-width: 600px) {
   .filters {
     flex-direction: column;
     align-items: stretch;
   }
-
   .filters select,
-  .filters .btn {
-    width: 100%;
-  }
+  .filters .btn { width: 100%; }
 }
 
+/* -------------------- Enlaces & mensajes -------------------- */
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #1c1f2b;
+  font-weight: 500;
+  text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+.error-msg {
+  color: red;
+  font-weight: bold;
+  margin-top: 2rem;
+}
 </style>
+

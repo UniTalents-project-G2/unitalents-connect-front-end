@@ -18,66 +18,59 @@
       </div>
 
       <div v-else class="already-rated">
-        Ya calificaste a esta empresa con: <strong>{{ ratingValue }}</strong>/5
+        Ya calificaste a esta empresa con:
+        <strong>{{ ratingValue }}</strong>/5
       </div>
     </div>
   </div>
 </template>
 
+<script setup>
+  import { ref, onMounted } from 'vue';
+  import { companyRatingService } from '@/modules/companies/services/company-rating.service.js';
 
-<script>
-import { ref, onMounted } from 'vue';
-import { CompanyService } from '@/modules/companies/services/company.service';
+  const props = defineProps({
+    project: { type: Object, required: true }
+  });
 
-export default {
-  name: 'PortfolioItem',
-  props: {
-    project: {
-      type: Object,
-      required: true
+  const ratingValue = ref('');
+  const hasRated    = ref(false);
+  const storageKey  = `rated-company-${props.project.companyId}-project-${props.project.id}`;
+
+  // Al montar, primero mira localStorage y, si no existe, consulta al backend
+  onMounted(async () => {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      ratingValue.value = parseInt(saved);
+      hasRated.value    = true;
+      return;
     }
-  },
-  setup(props) {
-    const ratingValue = ref('');
-    const hasRated = ref(false);
-    const storageKey = `rated-company-${props.project.companyId}-project-${props.project.id}`;
 
-    // Verifica si ya calificó al montar
-    onMounted(() => {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        ratingValue.value = parseInt(saved);
-        hasRated.value = true;
-      }
-    });
+    // Pregunta al backend si ya calificó
+    try {
+      const rated = await companyRatingService.hasRated(props.project.id);
+      if (rated) hasRated.value = true;
+    } catch (e) {
+      console.error('Error comprobando rating:', e);
+    }
+  });
 
-    const submitRating = async () => {
-      // Evita múltiples envíos
-      if (hasRated.value || !ratingValue.value) return;
+  const submitRating = async () => {
+    if (hasRated.value || !ratingValue.value) return;
 
-      const companyService = new CompanyService();
+    try {
+      await companyRatingService.create({
+        projectId: props.project.id,
+        rating: parseInt(ratingValue.value)
+      });
 
-      try {
-        const company = await companyService.getById(props.project.companyId);
-
-        if (!company || typeof company.rating !== 'number') {
-          company.rating = ratingValue.value;
-        } else {
-          company.rating = ((company.rating + parseInt(ratingValue.value)) / 2).toFixed(1);
-        }
-
-        await companyService.update(company.id, company);
-        localStorage.setItem(storageKey, ratingValue.value);
-        hasRated.value = true;
-
-      } catch (error) {
-        console.error('Error al calificar empresa:', error);
-      }
-    };
-
-    return { ratingValue, hasRated, submitRating };
-  }
-};
+      // Guarda bandera local para la próxima vez
+      localStorage.setItem(storageKey, ratingValue.value);
+      hasRated.value = true;
+    } catch (err) {
+      console.error('Error al calificar empresa:', err);
+    }
+  };
 </script>
 
 
@@ -172,5 +165,3 @@ export default {
   }
 }
 </style>
-
-

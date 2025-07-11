@@ -77,34 +77,64 @@ export default {
 <template>
   <div class="layout">
     <div class="content">
-      <router-link to="#" @click.prevent="$router.go(-1)" class="back-link">← Volver a postulantes</router-link>
+      <router-link to="#" @click.prevent="$router.go(-1)" class="back-link">
+        ← Volver a postulantes
+      </router-link>
 
+      <!-- Cabecera estudiante -->
       <div v-if="student && user" class="header">
-        <img class="avatar" :src="student.logo || 'https://i.pravatar.cc/100?img=3'" alt="Foto" />
+        <img
+            class="avatar"
+            :src="student.logo || 'https://i.pravatar.cc/150'"
+            alt="Foto"
+        />
+
         <div class="info">
           <h1>{{ user?.name }}</h1>
           <p>{{ student?.field }}</p>
+
           <div class="rating-projects">
-            <span>⭐ {{ student?.rating }}</span>
-            <span class="projects">{{ student?.endedProjects?.length || 0 }} proyectos completados</span>
+            ⭐ {{ student?.rating }}
+            <span class="projects">
+              {{ student?.endedProjects?.length || 0 }} proyectos completados
+            </span>
           </div>
+
           <p v-if="student.city || student.country">
-            📍 {{ student.city }}<span v-if="student.city && student.country">,</span> {{ student.country }}
+            📍 {{ student.city }}<span v-if="student.city && student.country">,</span>
+            {{ student.country }}
           </p>
-          <p v-if="student.birthdate">🎂 Nacimiento: {{ student.birthdate }}</p>
+          <p v-if="student.birthdate">
+            🎂 Nacimiento: {{ student.birthdate }}
+          </p>
           <p v-if="student.phoneNumber">📞 {{ student.phoneNumber }}</p>
           <p v-if="student.aboutMe">🧠 {{ student.aboutMe }}</p>
-          <a v-if="student.portfolioLink" :href="student.portfolioLink" target="_blank" class="portfolio-link">🔗 Ver portafolio</a>
+
+          <a
+              v-if="student.portfolioLink"
+              :href="student.portfolioLink"
+              target="_blank"
+              class="portfolio-link"
+          >
+            🔗 Ver portafolio
+          </a>
+
           <div v-if="student.specializations?.length">
             <strong>Especialidades:</strong>
             <ul>
-              <li v-for="(spec, index) in student.specializations" :key="index">{{ spec }}</li>
+              <li v-for="(spec, i) in student.specializations" :key="i">
+                {{ spec }}
+              </li>
             </ul>
           </div>
         </div>
-        <button class="accept-btn" @click="aceptarPostulante">Aceptar</button>
+
+        <button class="accept-btn" @click="aceptarPostulante">
+          Aceptar
+        </button>
       </div>
 
+      <!-- Lista de reputaciones -->
       <h2>Reputación</h2>
       <ReputationCard
           v-for="rep in reputations"
@@ -115,134 +145,117 @@ export default {
   </div>
 </template>
 
+<script setup>
+// (Tu lógica existente: props, imports, métodos…)
+</script>
+
 <style scoped>
+/* ---- Layout base con scroll global ---- */
+html,
+body,
+#app,
+.layout {
+  height: 100%;
+}
+
 .layout {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
 }
 
 .content {
+  flex: 1 1 auto;
+  overflow-y: auto;       /* barra del navegador */
   padding: 2rem;
-  width: 100%;
-  background-color: #f4eddf;
+  background: #f4eddf;
 }
 
+/* ---- Elementos generales ---- */
 .back-link {
   display: inline-block;
   margin-bottom: 1.5rem;
   color: #1c1f2b;
-  text-decoration: none;
   font-weight: 500;
+  text-decoration: none;
 }
+.back-link:hover { text-decoration: underline; }
 
+/* ---- Cabecera ---- */
 .header {
   display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
   align-items: center;
   padding: 1.5rem;
-  background-color: #ffffff;
+  background: #fff;
   border: 2px solid #ccc;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 3rem;
 }
 
-.header img {
-  width: 250px;
-  height: 250px;
+.avatar {
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #333;
   flex-shrink: 0;
 }
 
-.avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #333;
-  margin: 0 auto;
-}
-
 .info {
-  flex: 1;
-  min-width: 250px;
+  flex: 1 1 250px;
+  min-width: 200px;
 }
 
-.info h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.info p {
-  margin: 0.4rem 0;
-  color: #555;
-  font-size: 1rem;
-}
+.info h1 { margin: 0; font-size: 1.8rem; font-weight: 700; }
+.info p  { margin: .4rem 0; color: #555; }
 
 .rating-projects {
-  margin: 0.8rem 0;
-  font-size: 1rem;
+  margin: .8rem 0;
   font-weight: 500;
 }
-
-.projects {
-  margin-left: 1rem;
-  text-decoration: underline;
-  color: #333;
-}
+.projects { margin-left: 1rem; text-decoration: underline; }
 
 .portfolio-link {
   display: inline-block;
-  margin: 0.5rem 0;
-  color: #007BFF;
-  font-weight: 500;
+  margin: .5rem 0;
+  color: #007bff;
   text-decoration: underline;
 }
 
-ul {
-  padding-left: 1rem;
-  margin: 0.5rem 0;
-}
+/* Lista especialidades */
+ul { padding-left: 1rem; margin: .5rem 0; }
+li { margin: .2rem 0; }
 
-li {
-  margin: 0.2rem 0;
-  font-size: 0.95rem;
-}
-
+/* Botón aceptar */
 .accept-btn {
-  background-color: #fdd567;
+  background: #fdd567;
   border: none;
   border-radius: 8px;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
+  padding: .8rem 1.5rem;
   font-weight: 600;
-  transition: background-color 0.2s ease;
-  height: fit-content;
+  cursor: pointer;
+  transition: background-color .2s;
 }
+.accept-btn:hover { background: #f7c600; }
 
-.accept-btn:hover {
-  background-color: #f7c600;
-}
-
+/* ---- Responsive ---- */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
-    align-items: center;
     text-align: center;
   }
 
-  .info {
-    text-align: center;
+  .avatar {
+    width: 150px;
+    height: 150px;
   }
 
   .accept-btn {
     margin-top: 1rem;
+    width: 100%;
   }
 }
 </style>
+
